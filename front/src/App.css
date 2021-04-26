@@ -1,0 +1,19 @@
+.App {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.App > * {
+    flex: 1;
+}
+
+.delimiter {
+    flex: 0;
+    width: 1px;
+    height: 100%;
+    border-left: 1px solid #d9d9d9;
+    background-color: #eaeaea;
+}
