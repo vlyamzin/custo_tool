@@ -52,7 +52,7 @@ class PlatformService {
       .catch(err => {
         // TODO add global error logger
         console.error(err);
-        return err;
+        throw err;
       })
   }
 }

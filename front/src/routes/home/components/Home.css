@@ -1,0 +1,7 @@
+label {
+    font-size: 0.85em;
+}
+
+.validation-msg {
+    display: none;
+}

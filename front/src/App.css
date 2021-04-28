@@ -1,19 +1,18 @@
 .App {
-    width: calc(100vw - 40px);
-    height: calc(100vh - 40px);
+    width: calc(100vw);
+    height: calc(100vh);
     padding: 20px;
     display: flex;
     flex-direction: row;
+    font-size: 16px;
+    font-family: 'Nunito Sans', sans-serif;
+    color: #444444;
 }
 
 .App > * {
     flex: 1;
 }
 
-.delimiter {
-    flex: 0;
-    width: 1px;
-    height: 100%;
-    border-left: 1px solid #d9d9d9;
-    background-color: #eaeaea;
+.separator {
+    border-right: 1px solid #d9d9d9;
 }
