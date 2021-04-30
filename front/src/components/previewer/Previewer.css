@@ -1,4 +1,6 @@
-
+aside {
+    height: 100%;
+}
 iframe {
     height: calc(100% - 40px);
 }

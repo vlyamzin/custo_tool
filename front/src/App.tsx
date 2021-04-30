@@ -1,63 +1,28 @@
-import React, {useState} from 'react';
-import {BrowserRouter as Router, Link, Route, Switch, useParams, useHistory} from 'react-router-dom';
+import React from 'react';
 import './App.css';
-import Home from './routes/home/components/Home';
-import Previewer from './shared/components/previewer/Previewer';
-import {Col, Divider, Row} from 'antd';
+import PlatformLoader from './components/platform-loader/PlatformLoader';
+import Previewer from './components/previewer/Previewer';
+import {Col, Row} from 'antd';
+import PlatformBuilder from './components/platform-builder/PlatformBuilder';
+import {ConfigProvider} from './services/config.provider';
+
 
 function App() {
-  const [updateStatus, updateHandler] = useState(false);
-
-  function updatePreview(status: boolean): void {
-    updateHandler(status);
-  }
-
   return (
     <div className='App'>
       <Row gutter={[24, 24]}>
-        <Col span={12} className={'separator'}>
-          <Router>
-            <main>
-              {/*<Link to='/'>Home</Link>*/}
-              <Button/>
-              <Link to='/platform/1'>Platform 1</Link>
-              <Switch>
-                <Route exact={true} path='/'>
-                  <Home onLoadFinished={updatePreview}/>
-                </Route>
-                <Route path='/platform/:id' children={<MyForm />} />
-              </Switch>
-            </main>
-          </Router>
-        </Col>
-        <Col span={12}>
-          <Previewer isPlatformLoaded={updateStatus}/>
-        </Col>
+        <ConfigProvider>
+          <Col span={12} className={'separator'}>
+            <PlatformLoader />
+            <PlatformBuilder />
+          </Col>
+          <Col span={12}>
+            <Previewer />
+          </Col>
+        </ConfigProvider>
       </Row>
     </div>
   );
-}
-
-interface MyRouteParams {
-  id: string;
-}
-
-function MyForm () {
-  const { id } = useParams<MyRouteParams>();
-  return (
-    <div>This is my {id}</div>
-  )
-}
-
-function Button() {
-  const history = useHistory();
-  const navigate = () => {
-    history.push('/');
-  }
-
-  return (
-    <button onClick={navigate}>Home</button>
-  )
 }
 
 export default App;

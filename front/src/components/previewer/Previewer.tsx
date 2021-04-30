@@ -1,25 +1,23 @@
-import {environment} from '../../../environment';
+import {environment} from '../../environment';
 import {useEffect, useState} from 'react';
 import './Previewer.css'
-
-interface PreviewerProps {
-  isPlatformLoaded: boolean;
-}
+import {useConfig} from '../../services/config.provider';
 
 interface IframeProps {
   reload: any;
 }
 
-function Previewer(props: PreviewerProps) {
+function Previewer() {
   const [upd, reloadIframe] = useState({ r: 0 });
-  // useEffect(() => { reload() }, [props.updateIframe]);
+  const {config} = useConfig();
+  useEffect(() => { reload() }, [config]);
 
   function reload(): void {
     reloadIframe({r: upd.r + 1})
   }
 
   function isHidden(): string {
-    return props.isPlatformLoaded ? '' : 'hidden';
+    return config.status === 'loaded' ? '' : 'hidden';
   }
 
   return (

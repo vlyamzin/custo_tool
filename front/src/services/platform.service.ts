@@ -1,4 +1,17 @@
-import {environment} from '../../../environment';
+import {environment} from '../environment';
+
+export interface PlatformConfig {
+  id: string;
+  params: PlatformParams;
+  customization: PlatformCustomization
+}
+
+export interface PlatformParams {
+  availableLocales: Array<string>;
+  defaultLocale?: string;
+  oceBasicStyle?: boolean;
+  oceModeOnly?: boolean;
+}
 
 export interface PlatformCustomization {
   loginPageLogoUrl: string;
@@ -32,7 +45,7 @@ export interface PlatformCustomization {
 }
 
 class PlatformService {
-  public getCustomization(url: string): Promise<PlatformCustomization> {
+  public getCustomization(url: string): Promise<PlatformConfig> {
     const {baseUrl} = environment;
     const request = new Request(`${baseUrl}platform/config`, {
       method: 'POST',
@@ -48,7 +61,7 @@ class PlatformService {
           }
           return response.json();
       })
-      .then((custoFile: PlatformCustomization) => custoFile)
+      .then((config: PlatformConfig) => config)
       .catch(err => {
         // TODO add global error logger
         console.error(err);

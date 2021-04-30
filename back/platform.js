@@ -11,23 +11,28 @@ class Platform {
   }
 
   init() {
-    this.app.post('/api/v1/platform/config', async (req, res) => {
+    this.app.post('/api/v1/platform-builder/config', async (req, res) => {
       try {
         const [params, custo] = await this.fetchConfig(req.body.url);
         const user = req.header('user-token') || await this.di.userService.createUserFolder(parseIp(req));
         const platformFolder = await this.createPlatformFolder(req.body.url, user);
-        const response = Object.assign({}, params.data, {custo: custo.data});
-        const filesToDownload = this.parseCustomization(response.custo);
+        const platformId = nodeBTOA(this.#getPlatformId(req.body.url));
+        const response = Object.assign({}, {params: params.data}, {customization: custo.data});
+        const filesToDownload = this.parseCustomization(response.customization);
         await Promise.all([
           saveFile(`${platformFolder}/custo.json`, JSON.stringify(custo.data)),
           saveFile(`${platformFolder}/params.json`, JSON.stringify(params.data))
         ]);
         await Promise.all(filesToDownload.map(f => downloadFile(`${req.body.url}/${f.path}/${f.name}`, `${platformFolder}/${f.name}`)));
         res.cookie('session', user);
-        res.cookie('platformId', nodeBTOA(platformFolder.split('/').pop()));
+        res.cookie('platformId', platformId);
         res.json(response);
       } catch (err) {
-        res.send('ERROR');
+        res.json({
+          type: 'error',
+          code: 500,
+          message: err.message || 'Unknown error'
+        });
       }
     });
   }
@@ -42,11 +47,10 @@ class Platform {
   createPlatformFolder(platform, user) {
     return new Promise((resolve, reject) => {
       try {
-        const platformName = platform.replace(/[\.-]/g, '').split('//')[1];
+        const platformName = this.#getPlatformId(platform);
         const folderPath = this.di.userService.getUserFolderPath(user) + `/${platformName}`;
         fs.mkdir(folderPath, {recursive: true}, (err) => {
           if (err) {
-            debugger;
             console.log(err);
           }
           resolve(folderPath);
@@ -80,6 +84,10 @@ class Platform {
         path: uri.join('/')
       }
     });
+  }
+
+  #getPlatformId(platform) {
+    return platform.replace(/[\.-]/g, '').split('//')[1]
   }
 
 

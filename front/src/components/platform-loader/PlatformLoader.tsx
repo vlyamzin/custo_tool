@@ -1,35 +1,41 @@
 import {ReactElement, useState} from 'react';
-import platformService from '../services/platform.service';
+import platformService from '../../services/platform.service';
 import {Button, Col, Input, notification, Row} from 'antd';
 import classNames from 'classnames';
-import './Home.css'
-import {useHistory} from 'react-router-dom';
+import './PlatformLoader.css'
+import {useConfig} from '../../services/config.provider';
 
-function Home(props: any): ReactElement {
+interface PlatformLoaderProps {
+
+}
+
+function PlatformLoader(props: PlatformLoaderProps): ReactElement {
   const invalidPlatformUrlMessage = 'Platform URL is not valid';
-  const [platform, setPlatform] = useState('');
+  const {config, setConfig} = useConfig();
+  const [platformUrl, setPlatformUrl] = useState(config.platformUrl || '');
   const [validationError, showValidationError] = useState('');
-  const route = useHistory();
 
   async function loadPlatforms(platformUrl: string): Promise<void> {
     const validUrl = validateUrl(platformUrl);
     if (!validUrl) {
       showValidationError(invalidPlatformUrlMessage);
-      props.onLoadFinished(false);
       return;
     }
 
-    setPlatform(platformUrl);
+    setPlatformUrl(platformUrl);
     showValidationError('');
     try {
-      const custoFile = await platformService.getCustomization(validUrl);
-      if (custoFile) {
-        props.onLoadFinished(true);
-
-        // navigate to platform route
-        route.push('/platform/123');
+      const remoteConfig = await platformService.getCustomization(validUrl);
+      if (remoteConfig) {
+        setConfig(() => {
+          return {
+            status: 'loaded',
+            platformUrl,
+            ...remoteConfig
+          }
+        });
       }
-      console.log(custoFile);
+      console.log(remoteConfig);
     } catch (e) {
       notification.open({
         message: 'Connection Issue',
@@ -53,7 +59,6 @@ function Home(props: any): ReactElement {
     return segments.join('/');
   }
 
-
   return (
     <Row gutter={[20, 0]}>
       <Col span={24}>
@@ -62,20 +67,25 @@ function Home(props: any): ReactElement {
       <Col span={12}>
         <Input name={'url'}
                placeholder={'https://platform.com'}
-               onChange={(e) => { setPlatform(e.target.value) }} />
+               value={platformUrl}
+               onChange={(e) => {
+                 setPlatformUrl(e.target.value)
+               }}/>
       </Col>
       <Col span={12}>
-        <Button type={'primary'} disabled={platform.length === 0} onClick={() => { loadPlatforms(platform) }}>Load</Button>
+        <Button type={'primary'} disabled={platformUrl.length === 0} onClick={() => {
+          loadPlatforms(platformUrl)
+        }}>Load</Button>
       </Col>
       <Col span={24}
            className={
              classNames('validation-msg ant-form-item-explain ant-form-item-explain-error',
-                            {'visible': validationError.length > 0}
-                        )}>
+               {'visible': validationError.length > 0}
+             )}>
         <span>{validationError}</span>
       </Col>
     </Row>
   )
 }
 
-export default Home;
+export default PlatformLoader;
