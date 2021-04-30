@@ -11,7 +11,7 @@ class Platform {
   }
 
   init() {
-    this.app.post('/api/v1/platform-builder/config', async (req, res) => {
+    this.app.post('/api/v1/platform/config', async (req, res) => {
       try {
         const [params, custo] = await this.fetchConfig(req.body.url);
         const user = req.header('user-token') || await this.di.userService.createUserFolder(parseIp(req));

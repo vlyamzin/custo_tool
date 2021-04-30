@@ -1,4 +1,4 @@
-import {createContext, ReactElement, SetStateAction, useContext, useEffect, useState} from 'react';
+import {createContext, ReactElement, useContext, useEffect, useState} from 'react';
 import {PlatformCustomization, PlatformParams} from './platform.service';
 
 interface ConfigContext {
