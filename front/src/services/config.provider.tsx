@@ -1,10 +1,12 @@
 import {createContext, ReactElement, useContext, useEffect, useState} from 'react';
 import {PlatformCustomization, PlatformParams} from './platform.service';
 
+export type AppStatus = 'init' | 'loaded'
+
 interface ConfigContext {
   customization: PlatformCustomization;
   params: PlatformParams;
-  status: 'init' | 'loaded';
+  status: AppStatus;
   platformUrl: string
 }
 

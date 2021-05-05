@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import {ReactElement, useState} from 'react';
 
 interface DomainInputProps {
-  url: string
+  url: string;
   onSubmit: (value: string) => void
 }
 

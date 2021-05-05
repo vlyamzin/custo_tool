@@ -1,28 +1,29 @@
-import {ReactElement} from 'react';
+import {ReactElement, useState} from 'react';
 import platformService from '../../services/platform.service';
 import './PlatformLoader.css'
 import {useConfig} from '../../services/config.provider';
 import DomainInput from '../platform-builder/DomainInput';
 import {notification} from 'antd';
+import DomainLabel from '../platform-builder/DomainLabel';
 
 interface PlatformLoaderProps {
 
 }
 
 function PlatformLoader(props: PlatformLoaderProps): ReactElement {
-  const {config, setConfig} = useConfig();;
+  const {config, setConfig} = useConfig();
+  const [hideForm, changeFormVisibility] = useState(config.status === 'loaded');
 
   async function loadPlatforms(platformUrl: string): Promise<void> {
     try {
       const remoteConfig = await platformService.getCustomization(platformUrl);
       if (remoteConfig) {
-        setConfig(() => {
-          return {
-            status: 'loaded',
-            platformUrl,
-            ...remoteConfig
-          }
+        setConfig({
+          status: 'loaded',
+          platformUrl,
+          ...remoteConfig
         });
+        changeFormVisibility(true);
       }
     } catch (e) {
       notification.open({
@@ -35,7 +36,9 @@ function PlatformLoader(props: PlatformLoaderProps): ReactElement {
   }
 
   return (
-    <DomainInput url={config.platformUrl} onSubmit={loadPlatforms}/>
+    hideForm
+      ? <DomainLabel url={config.platformUrl} onShowForm={() => { changeFormVisibility(false) }}/>
+      : <DomainInput url={config.platformUrl} onSubmit={loadPlatforms}/>
   )
 }
 
