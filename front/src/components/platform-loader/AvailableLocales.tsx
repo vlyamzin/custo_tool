@@ -1,4 +1,4 @@
-import {notification, Select} from 'antd';
+import {Select} from 'antd';
 import {useConfig} from '../../services/config.provider';
 import {availableLocales} from '../../locales';
 import platformService from '../../services/platform.service';
@@ -17,15 +17,8 @@ function AvailableLocale(props: AvailableLocaleProps) {
   async function onLocaleSelect(locale: string): Promise<void> {
     const {availableLocales} = config.params;
     availableLocales.push(locale);
-    const res = await platformService.setParams(availableLocales);
-    if (res) {
-      setConfig({...config});
-    } else {
-      notification.error({
-        message: 'Synchronization error',
-        description: 'Available locales were not set'
-      })
-    }
+    const res = await platformService.setParams(availableLocales, 'Available locales were not set');
+    res && setConfig({...config});
   }
 
   async function onLocaleDeselect(locale: string): Promise<void> {

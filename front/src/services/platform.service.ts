@@ -1,4 +1,5 @@
 import {environment} from '../environment';
+import {notification} from 'antd';
 
 export interface PlatformConfig {
   id: string;
@@ -69,9 +70,17 @@ class PlatformService {
       })
   }
 
-  public setParams(params: Object): Promise<boolean> {
+  public setParams(params: Object, errorMsg: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       console.log('Save params: ', params);
+
+      // TODO check server response and show error if it failed
+      if (false) {
+        notification.error({
+          message: 'Synchronization error',
+          description: errorMsg
+        });
+      }
       resolve(true);
     })
   }

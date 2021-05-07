@@ -1,6 +1,7 @@
 import {Col, Row} from 'antd';
 import AvailableLocales from './AvailableLocales';
 import DefaultLocale from './DefaultLocale';
+import BasicStyleCheckbox from './BasicStyleCheckbox';
 
 interface GeneralSettingsProps {
 
@@ -15,6 +16,9 @@ function GeneralSettings(props: GeneralSettingsProps) {
       </Col>
       <Col span={12}>
         <DefaultLocale />
+      </Col>
+      <Col span={24}>
+        <BasicStyleCheckbox />
       </Col>
     </Row>
   )

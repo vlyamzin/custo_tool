@@ -1,4 +1,4 @@
-import {notification, Select} from 'antd';
+import {Select} from 'antd';
 import {useConfig} from '../../services/config.provider';
 import {ReactElement} from 'react';
 import platformService from '../../services/platform.service';
@@ -18,15 +18,11 @@ function DefaultLocale(props: DefaultLocaleProps) {
 
   async function onLocaleSelect(locale: string): Promise<void> {
     config.params.defaultLocale = locale;
-    const res = await platformService.setParams({defaultLocale: config.params.defaultLocale});
-    if (res) {
-      setConfig({...config});
-    } else {
-      notification.error({
-        message: 'Synchronization error',
-        description: 'Default locales was not set'
-      })
-    }
+    const res = await platformService.setParams(
+      {defaultLocale: config.params.defaultLocale},
+      'Default locales was not set'
+      );
+    res && setConfig({...config});
   }
 
   return (
