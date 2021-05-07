@@ -1,6 +1,7 @@
 import {PlatformCustomization, PlatformParams} from '../../services/platform.service';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
+import GeneralSettings from '../platform-loader/GeneralSettings';
 
 interface PlatformProps {
   // customizationConfig: PlatformCustomization,
@@ -12,8 +13,7 @@ function PlatformBuilder(props: PlatformProps) {
   // const [params, updateParams] = useState(props.paramsConfig);
   return (
     <div>
-      <button onClick={() => {
-      }}>Back</button>
+      <GeneralSettings />
     </div>
   )
 }

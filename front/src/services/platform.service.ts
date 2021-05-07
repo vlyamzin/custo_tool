@@ -56,10 +56,10 @@ class PlatformService {
 
     return fetch(request)
       .then((response: Response) => {
-          if (!response.ok) {
-            throw new Error(`Can't fetch a remote customization file`);
-          }
-          return response.json();
+        if (!response.ok) {
+          throw new Error(`Can't fetch a remote customization file`);
+        }
+        return response.json();
       })
       .then((config: PlatformConfig) => config)
       .catch(err => {
@@ -67,6 +67,20 @@ class PlatformService {
         console.error(err);
         throw err;
       })
+  }
+
+  public setParams(params: Object): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      console.log('Save params: ', params);
+      resolve(true);
+    })
+  }
+
+  public setCustomization(custo: Object): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      console.log('Save customzation: ', custo);
+      resolve(true);
+    })
   }
 }
 

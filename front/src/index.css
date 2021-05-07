@@ -19,3 +19,7 @@ code {
 .visible {
   display: block !important;
 }
+
+.selectLabel {
+  display: block;
+}
