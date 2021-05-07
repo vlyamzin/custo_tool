@@ -20,6 +20,7 @@ function PlatformLoader(props: PlatformLoaderProps): ReactElement {
       if (remoteConfig) {
         setConfig({
           status: 'loaded',
+          selectedLocale: remoteConfig.params.defaultLocale,
           platformUrl,
           ...remoteConfig
         });

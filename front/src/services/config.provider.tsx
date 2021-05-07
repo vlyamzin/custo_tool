@@ -6,6 +6,7 @@ export type AppStatus = 'init' | 'loaded'
 interface ConfigContext {
   customization: PlatformCustomization;
   params: PlatformParams;
+  selectedLocale?: string;
   status: AppStatus;
   platformUrl: string
 }
