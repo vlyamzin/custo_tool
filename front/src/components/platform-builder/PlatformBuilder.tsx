@@ -1,7 +1,7 @@
 import {PlatformCustomization, PlatformParams} from '../../services/platform.service';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import GeneralSettings from '../platform-loader/GeneralSettings';
+import GeneralSettings from '../general-settings/GeneralSettings';
 
 interface PlatformProps {
   // customizationConfig: PlatformCustomization,

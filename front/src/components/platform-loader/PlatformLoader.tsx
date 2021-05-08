@@ -1,10 +1,10 @@
 import {ReactElement, useState} from 'react';
 import platformService from '../../services/platform.service';
-import './PlatformLoader.css'
+import '../general-settings/PlatformLoader.css'
 import {useConfig} from '../../services/config.provider';
-import DomainInput from '../platform-builder/DomainInput';
+import DomainInput from './DomainInput';
 import {notification} from 'antd';
-import DomainLabel from '../platform-builder/DomainLabel';
+import DomainLabel from './DomainLabel';
 
 interface PlatformLoaderProps {
 

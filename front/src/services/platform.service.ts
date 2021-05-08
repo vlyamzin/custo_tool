@@ -14,35 +14,40 @@ export interface PlatformParams {
   oceModeOnly?: boolean;
 }
 
+export interface PlatformCustomizationItem<T> {
+  locale: string;
+  value: T
+}
+
 export interface PlatformCustomization {
-  loginPageLogoUrl: string;
-  loginPageLogoBackUrl: string;
-  loginPageBackgroundColorDesktop: string;
-  loginPageBackgroundColorMobile: string;
-  loginPageBackgroundImageDesktop: string;
-  loginPageBackgroundImageMobile: string;
-  loginPageBackgroundPositionDesktop: string;
-  loginPageBackgroundPositionMobile: string;
-  loginPageBackgroundSizeDesktop: string;
-  loginPageBackgroundSizeMobile: string;
-  loginPageAddressText: string;
-  loginPageDisclaimerText: string;
-  loginPageLegalBackgroundColorTheme: 'dark' | 'light';
-  loginPageTextColorTheme: 'dark' | 'light';
-  loginPageButtonColor: string;
-  loginPageGrpdText: string;
-  thanksPageBackgroundColorDesktop: string;
-  thanksPageBackgroundColorMobile: string;
-  thanksPageBackgroundImageDesktop: string;
-  thanksPageBackgroundImageMobile: string;
-  thanksPageBackgroundPositionDesktop: string;
-  thanksPageBackgroundPositionMobile: string;
-  thanksPageBackgroundSizeDesktop: string;
-  thanksPageBackgroundSizeMobile: string;
-  thanksPageContainerColorTheme: 'dark' | 'light';
-  thanksPageText: string;
-  thanksPageRedirectUrl: string;
-  thanksPageFormUrl: string;
+  loginPageLogoUrl: [PlatformCustomizationItem<string>];
+  loginPageLogoBackUrl: [PlatformCustomizationItem<string>];
+  loginPageBackgroundColorDesktop: [PlatformCustomizationItem<string>];
+  loginPageBackgroundColorMobile: [PlatformCustomizationItem<string>];
+  loginPageBackgroundImageDesktop: [PlatformCustomizationItem<string>];
+  loginPageBackgroundImageMobile: [PlatformCustomizationItem<string>];
+  loginPageBackgroundPositionDesktop: [PlatformCustomizationItem<string>];
+  loginPageBackgroundPositionMobile: [PlatformCustomizationItem<string>];
+  loginPageBackgroundSizeDesktop: [PlatformCustomizationItem<string>];
+  loginPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
+  loginPageAddressText: [PlatformCustomizationItem<string>];
+  loginPageDisclaimerText: [PlatformCustomizationItem<string>];
+  loginPageLegalBackgroundColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
+  loginPageTextColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
+  loginPageButtonColor: [PlatformCustomizationItem<string>];
+  loginPageGrpdText: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundColorDesktop: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundColorMobile: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundImageDesktop: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundImageMobile: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundPositionDesktop: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundPositionMobile: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundSizeDesktop: [PlatformCustomizationItem<string>];
+  thanksPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
+  thanksPageContainerColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
+  thanksPageText: [PlatformCustomizationItem<string>];
+  thanksPageRedirectUrl: [PlatformCustomizationItem<string>];
+  thanksPageFormUrl: [PlatformCustomizationItem<string>];
 }
 
 class PlatformService {
@@ -85,9 +90,16 @@ class PlatformService {
     })
   }
 
-  public setCustomization(custo: Object): Promise<boolean> {
+  public setCustomization(custo: Object, errorMsg: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       console.log('Save customzation: ', custo);
+      // TODO check server response and show error if it failed
+      if (false) {
+        notification.error({
+          message: 'Synchronization error',
+          description: errorMsg
+        });
+      }
       resolve(true);
     })
   }

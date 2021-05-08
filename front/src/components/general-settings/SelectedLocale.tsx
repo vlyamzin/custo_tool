@@ -24,8 +24,9 @@ function SelectedLocale(props: SelectedLocaleProps) {
 
   return (
     <div>
-      <label className={'selectLabel'} htmlFor="localeSelector">Selected Locale</label>
+      <label className={'selectLabel'} htmlFor="selected-locale">Selected Locale</label>
       <Select onSelect={onLocaleSelect}
+              id='selected-locale'
               showSearch
               style={{width: '100%'}}
               value={config.params.defaultLocale}

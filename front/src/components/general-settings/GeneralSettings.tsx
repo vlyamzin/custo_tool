@@ -3,6 +3,7 @@ import AvailableLocales from './AvailableLocales';
 import DefaultLocale from './DefaultLocale';
 import BasicStyleCheckbox from './BasicStyleCheckbox';
 import SelectedLocale from './SelectedLocale';
+import CopyFromLocale from './CopyFromLocale';
 
 interface GeneralSettingsProps {
 
@@ -23,6 +24,9 @@ function GeneralSettings(props: GeneralSettingsProps) {
       </Col>
       <Col span={12}>
         <SelectedLocale />
+      </Col>
+      <Col span={12}>
+        <CopyFromLocale />
       </Col>
     </Row>
   )

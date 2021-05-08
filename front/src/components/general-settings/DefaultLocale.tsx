@@ -27,8 +27,9 @@ function DefaultLocale(props: DefaultLocaleProps) {
 
   return (
     <div>
-      <label className={'selectLabel'} htmlFor="localeSelector">Available Locales</label>
+      <label className={'selectLabel'} htmlFor="default-locale">Available Locales</label>
       <Select onSelect={onLocaleSelect}
+              id='default-locale'
               showSearch
               style={{width: '100%'}}
               value={config.params.defaultLocale}

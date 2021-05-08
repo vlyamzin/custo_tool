@@ -33,8 +33,9 @@ function AvailableLocale(props: AvailableLocaleProps) {
 
   return (
     <div>
-      <label className={'selectLabel'} htmlFor="localeSelector">Available Locales</label>
+      <label className={'selectLabel'} htmlFor="available-locales">Available Locales</label>
       <Select mode={'multiple'}
+              id='available-locales'
               onSelect={onLocaleSelect}
               onDeselect={onLocaleDeselect}
               style={{width: '100%'}}
