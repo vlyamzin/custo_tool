@@ -39,7 +39,7 @@ function AvailableLocale(props: AvailableLocaleProps) {
               onSelect={onLocaleSelect}
               onDeselect={onLocaleDeselect}
               style={{width: '100%'}}
-              defaultValue={config.params.availableLocales}
+              defaultValue={config?.params?.availableLocales}
               placeholder={'Select Item'}>
         {items}
       </Select>

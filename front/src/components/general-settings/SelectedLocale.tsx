@@ -11,7 +11,7 @@ function SelectedLocale(props: SelectedLocaleProps) {
 
 
   function options(): Array<ReactElement> {
-    return config.params.availableLocales.map((locale, index) => {
+    return (config?.params?.availableLocales || []).map((locale, index) => {
       return <Select.Option value={locale} key={index}>{locale}</Select.Option>
     })
   }
@@ -29,7 +29,7 @@ function SelectedLocale(props: SelectedLocaleProps) {
               id='selected-locale'
               showSearch
               style={{width: '100%'}}
-              value={config.params.defaultLocale}
+              value={config?.selectedLocale}
               placeholder={'Select Item'}
               filterOption={(input, option) =>
                 option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

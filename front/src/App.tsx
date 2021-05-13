@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import PlatformLoader from './components/platform-loader/PlatformLoader';
 import Previewer from './components/previewer/Previewer';
 import {Col, Row} from 'antd';
-import PlatformBuilder from './components/platform-builder/PlatformBuilder';
 import {ConfigProvider} from './services/config.provider';
+import FormType from "./FormType";
+import PlatformLoader from "./components/platform-loader/PlatformLoader";
 
 
 function App() {
@@ -13,8 +13,8 @@ function App() {
       <Row gutter={[24, 24]}>
         <ConfigProvider>
           <Col span={12} className={'separator'}>
-            <PlatformLoader />
-            <PlatformBuilder />
+            <PlatformLoader/>
+            <FormType />
           </Col>
           <Col span={12}>
             <Previewer />

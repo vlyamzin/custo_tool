@@ -3,7 +3,7 @@ import {PlatformCustomization, PlatformParams} from './platform.service';
 
 export type AppStatus = 'init' | 'loaded'
 
-interface ConfigContext {
+export interface ConfigContext {
   customization: PlatformCustomization;
   params: PlatformParams;
   selectedLocale?: string;

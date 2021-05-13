@@ -13,24 +13,33 @@ function CopyFromLocale(props: CopyFromLocaleProps) {
   const [locale, setLocale] = useState();
 
   function options(): Array<ReactElement> {
-    return config.params.availableLocales
+    return (config?.params?.availableLocales || [])
       .filter(l => l !== config.selectedLocale)
       .map((l, i) => {
-      return <Select.Option value={l} key={i}>{l}</Select.Option>
-    })
+        return <Select.Option value={l} key={i}>{l}</Select.Option>
+      })
   }
 
   async function copy(): Promise<void> {
     const {customization: c} = config;
-    for (let [custoType, configPart] of Object.entries(c)) {
+    for (let [type, configPart] of Object.entries(c)) {
       const configToCopy = configPart.find((item: PlatformCustomizationItem<string>) => item.locale === locale);
-      configPart.push({
-        locale: config.selectedLocale,
-        value: configToCopy.value
-      })
+      if (!configToCopy) {
+        continue;
+      }
+      const configToUpdateIndex = configPart.findIndex((item: PlatformCustomizationItem<string>) => item.locale === config.selectedLocale);
+      if (configToUpdateIndex > -1) {
+        configPart[configToUpdateIndex].value = configToCopy.value;
+      } else {
+        configPart.push({
+          locale: config.selectedLocale,
+          value: configToCopy.value
+        })
+      }
     }
 
-    const res = await platformService.setCustomization(c, '')
+    const res = await platformService.setCustomization(c, 'Unable to copy from selected locale');
+    res && setConfig({...config});
   }
 
   return (
@@ -38,7 +47,9 @@ function CopyFromLocale(props: CopyFromLocaleProps) {
       <label className={'selectLabel'} htmlFor="copy-from-locale">Copy from locale</label>
       <div id='container'>
         <Select onSelect={setLocale}
-                onClear={() => { setLocale(undefined) }}
+                onClear={() => {
+                  setLocale(undefined)
+                }}
                 showSearch
                 value={locale}
                 placeholder={'Select Item'}

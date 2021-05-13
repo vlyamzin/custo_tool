@@ -41,7 +41,7 @@ function DomainInput (props: DomainInputProps): ReactElement {
                }}/>
       </Col>
       <Col span={12}>
-        <Button type={'primary'} disabled={domain.length === 0} onClick={validateAndSubmit}>Load</Button>
+        <Button type={'primary'} disabled={domain?.length === 0} onClick={validateAndSubmit}>Load</Button>
       </Col>
       <Col span={24}
            className={
