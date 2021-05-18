@@ -1,13 +1,13 @@
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {getDirname} from "./util.js";
-const app = express();
-const port = 4321;
 import Platform from './platform.js';
 import User from "./user.js";
 import FileSubstitutor from "./file-substitutor.js";
+import FileUpload from "./file-upload.js";
 
+const app = express();
+const port = 4321;
 const di = {};
 
 app.use(cors({
@@ -15,11 +15,11 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(cookieParser());
 
 di.userService = new User();
 new Platform(app, di);
 new FileSubstitutor(app, di);
+new FileUpload(app, di);
 
 
 app.use(express.static(getDirname() + '/public/dist/'));

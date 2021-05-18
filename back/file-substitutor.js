@@ -1,5 +1,6 @@
-import {parseCookie, nodeATOB, getDirname} from "./util.js";
+import {nodeATOB, getDirname} from "./util.js";
 import path from "path";
+import {cookieValidator, parseCookie} from "./cookie-validator.js";
 
 class FileSubstitutor {
   constructor(app, di) {
@@ -10,35 +11,30 @@ class FileSubstitutor {
   }
 
   init() {
-    this.app.get('/assets/custo/*.*', (req, res) => {
+    this.app.get('/assets/custo/*.*', cookieValidator, (req, res) => {
       const cookies = parseCookie(req.headers.cookie);
 
-      if (this.#validateCookie(cookies)) {
-        const user = cookies.session;
-        const platform = nodeATOB(cookies.platformId);
-        const folderPath = path.join(getDirname(), 'public', 'users', user, platform);
-        const fileNameToSubstitute = this.#getFilenameFromUrl(req.url);
-        const options = {
-          dotfiles: 'deny',
-          headers: {
-            'x-timestamp': Date.now(),
-            'x-sent': true
-          }
+      const user = cookies.session;
+      const platform = nodeATOB(cookies.platformId);
+      const folderPath = path.join(getDirname(), 'public', 'users', user, platform);
+      const fileNameToSubstitute = this.#getFilenameFromUrl(req.url);
+      const options = {
+        dotfiles: 'deny',
+        headers: {
+          'x-timestamp': Date.now(),
+          'x-sent': true
         }
-
-        return res.sendFile(path.join(folderPath, fileNameToSubstitute), options, (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('Sent: ', fileNameToSubstitute);
-            }
-        });
       }
-    })
-  }
 
-  #validateCookie(obj) {
-    return obj && obj.hasOwnProperty('session') && obj.hasOwnProperty('platformId');
+      return res.sendFile(path.join(folderPath, fileNameToSubstitute), options, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Sent: ', fileNameToSubstitute);
+        }
+      });
+
+    })
   }
 
   #getFilenameFromUrl(url) {

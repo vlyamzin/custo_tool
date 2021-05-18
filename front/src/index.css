@@ -23,3 +23,8 @@ code {
 .selectLabel {
   display: block;
 }
+
+.selectLabel.inline {
+  display: inline-block;
+  margin: 0 20px 0 0;
+}

@@ -1,19 +1,15 @@
-import {PlatformCustomization, PlatformParams} from '../../services/platform.service';
-import {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import './PlatformBuilder.css';
 import GeneralSettings from '../general-settings/GeneralSettings';
+import LoginPage from "../login-page/LoginPage";
 
 interface PlatformProps {
-  // customizationConfig: PlatformCustomization,
-  // paramsConfig: PlatformParams
 }
 
 function PlatformBuilder(props: PlatformProps) {
-  // const [config, updateConfig] = useState(props.customizationConfig);
-  // const [params, updateParams] = useState(props.paramsConfig);
   return (
     <div>
-      <GeneralSettings />
+      <GeneralSettings className='row-container' />
+      <LoginPage className='row-container' />
     </div>
   )
 }
