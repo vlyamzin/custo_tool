@@ -42,30 +42,24 @@ function Logo(props: LogoProps) {
     return [];
   }
 
-  function removePrevFile(file: RcFile, fileList: Array<any>): boolean {
-    // beforeUpload hook does not accept Promise<boolean> type
-    // by this reason the next promise return value is ignored
-    // just ask the server to drop previous file
-    const logo = config.customization.loginPageLogoUrl.find(i => i.locale === config.selectedLocale);
-    fileUploadService.deleteFile(logo?.value);
-    return true;
-  }
-
-  async function onFileRemove(file: UploadFile): Promise<boolean> {
-    const response = await fileUploadService.deleteFile(file.name);
-    return response || false;
-  }
-
   function onChange(info: UploadChangeParam): void {
     // workaround for issue https://github.com/ant-design/ant-design/issues/2423
     setFile([...info.fileList]);
 
     if (info?.file.status === 'done') {
       const logo = config.customization.loginPageLogoUrl.find(i => i.locale === config.selectedLocale);
-      if (logo) {
-        logo.value = info.file.response.path;
-      }
+      logo
+        ? logo.value = info.file.response.path
+        : config.customization.loginPageLogoUrl.push({locale: config.selectedLocale as string, value: info.file.response.path});
       setConfig({...config});
+    }
+
+    if (info?.file.status === 'removed') {
+      const index = config.customization.loginPageLogoUrl.findIndex(i => i.locale === config.selectedLocale);
+      if (index > -1) {
+        config.customization.loginPageLogoUrl.splice(index, 1);
+        setConfig({...config});
+      }
     }
   }
 
@@ -77,9 +71,7 @@ function Logo(props: LogoProps) {
               withCredentials={true}
               fileList={[...fileList]}
               maxCount={1}
-              beforeUpload={removePrevFile}
               onChange={onChange}
-              onRemove={onFileRemove}
       >
         <label className='selectLabel inline' htmlFor="logo-upload">Logo:</label>
         <Button type={'primary'} id='logo-upload'>Upload</Button>

@@ -1,6 +1,6 @@
-import {nodeATOB, getDirname} from "./util.js";
+import {getDirname} from "./util.js";
 import path from "path";
-import {cookieValidator, parseCookie} from "./cookie-validator.js";
+import {cookieValidator} from "./cookie-validator.js";
 
 class FileSubstitutor {
   constructor(app, di) {
@@ -12,10 +12,8 @@ class FileSubstitutor {
 
   init() {
     this.app.get('/assets/custo/*.*', cookieValidator, (req, res) => {
-      const cookies = parseCookie(req.headers.cookie);
-
-      const user = cookies.session;
-      const platform = nodeATOB(cookies.platformId);
+      const user = req.session;
+      const platform = req.platformId;
       const folderPath = path.join(getDirname(), 'public', 'users', user, platform);
       const fileNameToSubstitute = this.#getFilenameFromUrl(req.url);
       const options = {

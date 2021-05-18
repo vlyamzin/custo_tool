@@ -8,6 +8,7 @@ class FileUploadService {
     const request = new Request(`${environment.baseUrl}file-delete`, {
       method: 'POST',
       credentials: 'include',
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({url})
     });
 

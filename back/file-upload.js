@@ -1,6 +1,6 @@
-import {cookieValidator, parseCookie} from "./cookie-validator.js";
+import {cookieValidator} from "./cookie-validator.js";
 import multer from 'multer';
-import {nodeATOB} from "./util.js";
+import fs from "fs";
 
 
 class FileUpload {
@@ -33,14 +33,28 @@ class FileUpload {
         res.json({path: 'assets/custo/'+ req.file.originalname});
       });
     });
+
+    this.app.post('/api/v1/file-delete', cookieValidator, (req, res) => {
+      const {platformId, session} = req;
+      const {url} = req.body;
+      const fileName = url.split('/').pop();
+      const folderPath = this.di.userService.getUserFolderPath(session) + `/${platformId}`;
+
+      fs.unlink(`${folderPath}/${fileName}`, (err) => {
+        if (err) {
+          res.status(415).send(err.message);
+        }
+
+        res.status(200).send('OK');
+      });
+    })
   }
 
   #initStorage() {
     return multer.diskStorage({
       destination: (req, file, next) => {
-        const cookie = parseCookie(req.headers.cookie);
-        const folderPath = this.di.userService.getUserFolderPath(cookie.session);
-        next(null, `${folderPath}/${nodeATOB(cookie.platformId)}`);
+        const folderPath = this.di.userService.getUserFolderPath(req.session);
+        next(null, `${folderPath}/${req.platformId}`);
       },
       filename: (req, file, next) => { 
         next(null, file.originalname);

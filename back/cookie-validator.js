@@ -1,13 +1,17 @@
+import {nodeATOB} from "./util.js";
+
 export function cookieValidator(req, res, next) {
   const cookie = parseCookie(req.headers.cookie);
   if (validate(cookie)) {
+    req.session = cookie.session;
+    req.platformId = nodeATOB(cookie.platformId);
     next();
   } else {
     res.status(401).send('Unauthorized');
   }
 }
 
-export function parseCookie(str) {
+function parseCookie(str) {
   const cookiePairs = str && str.split(';');
 
   return (cookiePairs || [])
