@@ -34,10 +34,10 @@ class PlatformUpdate {
     });
 
     /**
-     * Update the item in the customization config
+     * Update the item of provided locale in the customization config
      * Body params:
      * type {string} - the config item name. E.g loginPageLogoUrl
-     * locale {string} - the locale string that must be udpated
+     * locale {string} - the locale string that must be updated
      * value {string} - the value to apply
      * @returns - config
      */
@@ -59,6 +59,39 @@ class PlatformUpdate {
           throw Error('No customization config available');
         }
       } catch (err) {
+        res.status(500).send(err.message || 'Unknown error');
+      }
+    });
+
+    /**
+     * Delete the item from the customization config
+     * Body params:
+     * type {string} - the config item name. E.g loginPageLogoUrl
+     * locale {string} - the locale string that must be removed
+     * @returns - status
+     */
+    this.app.delete('/api/v1/platform/update/customization', cookieValidator, async (req, res) => {
+      try {
+        const {session, platformId, body} = req;
+        const config = await this.#readConfigFile(session, platformId);
+        if (config) {
+          const itemIndex = (config[body.type] || []).findIndex(item => item.locale === body.locale);
+          if (itemIndex > -1 ) {
+            config[body.type].splice(itemIndex, 1);
+            this.#writeConfigFile(session, platformId, config)
+              .then(() => {
+                res.status(200).send('OK');
+              })
+              .catch((err) => {
+                res.status(400).send(err.message);
+              })
+          } else {
+            res.status(400).send('There is no such item in the config');
+          }
+        } else {
+          throw Error('No customization config available');
+        }
+      } catch(err) {
         res.status(500).send(err.message || 'Unknown error');
       }
     })

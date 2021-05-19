@@ -140,7 +140,28 @@ class PlatformService {
           description: errorMsg
         });
         return false;
+      });
+  }
+
+  public deleteCustomizationPart(type: keyof PlatformCustomization, locale: string, errorMsg: string): Promise<boolean> {
+    const {baseUrl} = environment;
+    const request = PlatformService.createRequestObject('DELETE', `${baseUrl}platform/update/customization`, {type, locale});
+
+    return fetch(request)
+      .then((response: Response) => {
+        if (!response.ok) {
+          throw new Error(`Can't remove customization config part`);
+        }
+        return true;
       })
+      .catch(err => {
+        console.error(err);
+        notification.error({
+          message: 'Synchronization error',
+          description: errorMsg
+        });
+        return false;
+      });
   }
 }
 

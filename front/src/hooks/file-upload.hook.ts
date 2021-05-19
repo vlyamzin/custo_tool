@@ -57,10 +57,13 @@ export function useFileUpload(type: keyof PlatformCustomization): FileUploadHook
 
     if (info?.file.status === 'removed') {
       const index = config.customization[type].findIndex(i => i.locale === config.selectedLocale);
-      if (index > -1) {
-        config.customization[type].splice(index, 1);
-        setConfig({...config});
-      }
+      platformService.deleteCustomizationPart(type, config.customization[type][index].locale, 'Logo image was not removed')
+        .then(() => {
+          if (index > -1) {
+            config.customization[type].splice(index, 1);
+            setConfig({...config});
+          }
+        });
     }
   }
 

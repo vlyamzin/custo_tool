@@ -7,9 +7,9 @@ interface LoginPageProps extends RowProps {
 
 function LoginPage(props: LoginPageProps) {
   return (
-    <Row gutter={[20, 0]} {...props}>
+    <Row gutter={[20, 7]} {...props}>
       <Col span={24}><h2>Login Page</h2></Col>
-      <Col span={18}>
+      <Col span={12}>
         <Logo />
       </Col>
     </Row>
