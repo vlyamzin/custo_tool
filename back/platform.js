@@ -1,11 +1,13 @@
 import {nodeBTOA, parseIp, downloadFile, saveFile} from "./util.js";
 import axios from "axios";
 import fs from 'fs';
+import PlatformUpdate from "./platform-update.js";
 
 class Platform {
   constructor(app, di) {
     this.app = app;
     this.di = di;
+    this.platformUpdate = new PlatformUpdate(app, di);
 
     this.init();
   }

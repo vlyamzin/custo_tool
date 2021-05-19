@@ -32,8 +32,8 @@ export interface PlatformCustomization {
   loginPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
   loginPageAddressText: [PlatformCustomizationItem<string>];
   loginPageDisclaimerText: [PlatformCustomizationItem<string>];
-  loginPageLegalBackgroundColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
-  loginPageTextColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
+  loginPageLegalBackgroundColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
+  loginPageTextColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
   loginPageButtonColor: [PlatformCustomizationItem<string>];
   loginPageGrpdText: [PlatformCustomizationItem<string>];
   thanksPageBackgroundColorDesktop: [PlatformCustomizationItem<string>];
@@ -44,21 +44,25 @@ export interface PlatformCustomization {
   thanksPageBackgroundPositionMobile: [PlatformCustomizationItem<string>];
   thanksPageBackgroundSizeDesktop: [PlatformCustomizationItem<string>];
   thanksPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
-  thanksPageContainerColorTheme: [PlatformCustomizationItem<'dark' | 'light'>];
+  thanksPageContainerColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
   thanksPageText: [PlatformCustomizationItem<string>];
   thanksPageRedirectUrl: [PlatformCustomizationItem<string>];
   thanksPageFormUrl: [PlatformCustomizationItem<string>];
 }
 
 class PlatformService {
-  public getCustomization(url: string): Promise<PlatformConfig> {
-    const {baseUrl} = environment;
-    const request = new Request(`${baseUrl}platform/config`, {
-      method: 'POST',
+  private static createRequestObject(method: string, url: string, body: Object): Request {
+    return new Request(url, {
+      method: method,
       credentials: 'include',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({url})
+      body: JSON.stringify(body)
     });
+  }
+
+  public getCustomization(url: string): Promise<PlatformConfig> {
+    const {baseUrl} = environment;
+    const request = PlatformService.createRequestObject('POST', `${baseUrl}platform/config`, {url});
 
     return fetch(request)
       .then((response: Response) => {
@@ -91,17 +95,52 @@ class PlatformService {
   }
 
   public setCustomization(custo: Object, errorMsg: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      console.log('Save customzation: ', custo);
-      // TODO check server response and show error if it failed
-      if (false) {
+    const {baseUrl} = environment;
+    const request = PlatformService.createRequestObject('POST',`${baseUrl}platform/update/customization`, {config: custo});
+
+    return fetch(request)
+      .then((response: Response) => {
+        if (!response.ok) {
+          throw new Error(`Can't set customization config`);
+        }
+        return true;
+      })
+      .catch(err => {
+        console.error(err);
         notification.error({
           message: 'Synchronization error',
           description: errorMsg
         });
-      }
-      resolve(true);
-    })
+        return false;
+      });
+  }
+
+  public setCustomizationPart(type: keyof PlatformCustomization, data: PlatformCustomizationItem<any> | undefined, errorMsg: string): Promise<boolean> {
+    if (!data) {
+      console.error(new Error('No data provided'));
+      return Promise.resolve(false);
+    }
+
+    const {baseUrl} = environment;
+    const request = PlatformService.createRequestObject('PUT', `${baseUrl}platform/update/customization`, {
+      type, locale: data.locale, value: data.value
+    });
+
+    return fetch(request)
+      .then((response: Response) => {
+        if (!response.ok) {
+          throw new Error(`Can't set customization config part`);
+        }
+        return true;
+      })
+      .catch(err => {
+        console.error(err);
+        notification.error({
+          message: 'Synchronization error',
+          description: errorMsg
+        });
+        return false;
+      })
   }
 }
 
