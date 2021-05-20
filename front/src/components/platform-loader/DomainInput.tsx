@@ -1,6 +1,7 @@
 import {Button, Col, Input, Row} from 'antd';
 import classNames from 'classnames';
 import {ReactElement, useState} from 'react';
+import {validateUrl} from "../../services/util.service";
 
 interface DomainInputProps {
   url: string;
@@ -14,10 +15,9 @@ function DomainInput (props: DomainInputProps): ReactElement {
 
   function validateAndSubmit() {
     const segments = domain.split('/');
-    const emailRegEx = /^http(s)?:\/\/(\S)+\.\w+(\.[\w])*(\/|\w)*$/g
 
     // if url does not have http(s):// prefix or domain name
-    if (!emailRegEx.test(domain)) {
+    if (!validateUrl(domain)) {
       showValidationError(invalidPlatformUrlMessage);
       return;
     }

@@ -46,8 +46,17 @@ class PlatformUpdate {
         const {session, platformId, body} = req;
         const config = await this.#readConfigFile(session, platformId);
         if (config) {
-          const item = (config[body.type] || []).find(item => item.locale === body.locale);
-          item.value = body.value;
+          if (!config[body.type]) {
+            config[body.type] = [];
+          }
+
+          const item = config[body.type].find(item => item.locale === body.locale);
+          if (!item) {
+            config[body.type].push({locale: body.locale, value: body.value});
+          } else {
+            item.value = body.value;
+          }
+
           this.#writeConfigFile(session, platformId, config)
             .then(() => {
               res.json(config);
