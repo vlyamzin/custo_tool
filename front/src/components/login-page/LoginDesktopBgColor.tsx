@@ -22,7 +22,7 @@ function LoginDesktopBgColor(props: LoginDesktopBgColorProps) {
 
   return (
     <div>
-      <label className={'selectLabel'}>Background color desktop</label>
+      <label className={'selectLabel'}>Desktop background color</label>
       <ColorPicker color={color} onChange={onChange} onClear={() => onChange('')}/>
     </div>
   )

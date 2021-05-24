@@ -22,7 +22,7 @@ function LoginMobileBgColor(props: LoginMobileBgColorProps) {
 
   return (
     <div>
-      <label className={'selectLabel'}>Background color mobile</label>
+      <label className={'selectLabel'}>Mobile background color</label>
       <ColorPicker color={color} onChange={onChange} onClear={() => onChange('')}/>
     </div>
   )

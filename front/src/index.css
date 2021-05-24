@@ -20,6 +20,10 @@ code {
   display: block !important;
 }
 
+.no-padding {
+  padding: 0 !important;
+}
+
 .selectLabel {
   display: block;
 }
