@@ -16,7 +16,7 @@ function Logo(props: LogoProps) {
               fileList={[...fileList]}
               maxCount={1}
               onChange={uploadFile}>
-        <label className='selectLabel inline' htmlFor="logo-upload">Logo:</label>
+        <label className='selectLabel inline' style={{fontSize: '0.85rem'}} htmlFor="logo-upload">Logo:</label>
         <Button type={'primary'} id='logo-upload'>Upload</Button>
       </Upload>
     </div>

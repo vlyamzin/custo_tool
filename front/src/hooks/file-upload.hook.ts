@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {UploadChangeParam} from "antd/es/upload";
 import {environment} from "../environment";
 import {useConfig} from "../services/config.provider";
@@ -11,7 +11,7 @@ export function useFileUpload(type: keyof PlatformCustomization): FileUploadHook
   const {config, setConfig} = useConfig();
   const [fileList, setFile] = useState(getFileFromUrl());
 
-  useMemo(() => {
+  useEffect(() => {
     setFile([...getFileFromUrl()]);
   }, [config.selectedLocale])
 
