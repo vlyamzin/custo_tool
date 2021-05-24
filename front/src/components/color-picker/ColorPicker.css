@@ -1,0 +1,23 @@
+.cp-container {
+  display: flex;
+  align-items: center;
+}
+
+.cp-container .selector {
+  width: 40px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.cp-container .preview {
+  border-bottom: 1px solid #d9d9d9;
+  flex-grow: 1;
+}
+
+.preview .placeholder {
+  font-size: 0.9em;
+  color: #c1c1c1;
+}
