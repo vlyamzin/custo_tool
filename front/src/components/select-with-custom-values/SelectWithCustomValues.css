@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.dropdown {
+  flex-grow: 1;
+}
+
+.null-value {
+  color: #c6c6c6;
+}
