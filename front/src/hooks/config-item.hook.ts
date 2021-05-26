@@ -1,7 +1,7 @@
 import platformService, {PlatformCustomization, PlatformCustomizationItem} from "../services/platform.service";
 import {useConfig} from "../services/config.provider";
 
-export function useConfigItemReduce(type: keyof PlatformCustomization, errorMsgPart: string) {
+export function useConfigItem(type: keyof PlatformCustomization, errorMsgPart: string) {
   let {config, setConfig} = useConfig();
 
   function getCustomizationItem(): PlatformCustomizationItem<any> | undefined {
@@ -12,17 +12,17 @@ export function useConfigItemReduce(type: keyof PlatformCustomization, errorMsgP
     return getCustomizationItem()?.value || '';
   }
 
-  function dispatch(value: string): void {
+  function changeItemValue(value: string): void {
     if (value !== prevValue()) {
       if (!config.customization.hasOwnProperty(type)) {
-        reduce(value, 'create');
+        store(value, 'create');
       } else {
-        value.length === 0 ? reduce(null, 'delete') : reduce(value, 'update');
+        value.length === 0 ? store(null, 'delete') : store(value, 'update');
       }
     }
   }
 
-  async function reduce(value: any, action: string): Promise<void> {
+  async function store(value: any, action: string): Promise<void> {
     switch (action) {
       case 'create': {
         const item = {locale: config.selectedLocale as string, value: value};
@@ -61,5 +61,5 @@ export function useConfigItemReduce(type: keyof PlatformCustomization, errorMsgP
     }
   }
 
-  return {prevValue, dispatch, config};
+  return {prevValue, changeItemValue, config};
 }

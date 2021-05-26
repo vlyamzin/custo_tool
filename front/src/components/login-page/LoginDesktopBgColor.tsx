@@ -1,5 +1,5 @@
 import ColorPicker from "../color-picker/ColorPicker";
-import {useConfigItemReduce} from "../../hooks/config-item.hook";
+import {useConfigItem} from "../../hooks/config-item.hook";
 import {useEffect, useState} from "react";
 import {debounce} from "lodash-es";
 
@@ -8,7 +8,7 @@ interface LoginDesktopBgColorProps {
 }
 
 function LoginDesktopBgColor(props: LoginDesktopBgColorProps) {
-  const {dispatch, prevValue, config} = useConfigItemReduce('loginPageBackgroundColorDesktop', 'desktop background color');
+  const {changeItemValue, prevValue, config} = useConfigItem('loginPageBackgroundColorDesktop', 'desktop background color');
   const [color, setColor] = useState(prevValue());
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function LoginDesktopBgColor(props: LoginDesktopBgColorProps) {
 
   function onChange(color: string): void {
     setColor(color);
-    debounce(() => dispatch(color), 1000)();
+    debounce(() => changeItemValue(color), 1000)();
   }
 
   return (

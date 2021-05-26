@@ -1,4 +1,4 @@
-import {useConfigItemReduce} from "../../hooks/config-item.hook";
+import {useConfigItem} from "../../hooks/config-item.hook";
 import SelectWithCustomValues from "../select-with-custom-values/SelectWithCustomValues";
 import {environment} from "../../environment";
 
@@ -11,13 +11,13 @@ function BackgroundPositionMobile(props: BackgroundPositionMobileProps) {
                           Ex: "top center", "top left", "bottom right", "25% 75%".
                           If not set, default value is "top center", meaning that the top of the image touches the 
                           top of the screen and it is horizontally centered.`;
-  const {prevValue, dispatch} = useConfigItemReduce('loginPageBackgroundPositionMobile', 'background position');
+  const {prevValue, changeItemValue} = useConfigItem('loginPageBackgroundPositionMobile', 'background position');
 
   return (
     <SelectWithCustomValues label={'Mobile background position'}
                             options={environment.bgPositionOptions}
                             value={prevValue()}
-                            onChange={dispatch}
+                            onChange={changeItemValue}
                             tooltip={tooltipMessage}/>
   )
 }

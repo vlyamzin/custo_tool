@@ -1,6 +1,6 @@
 import {Input} from "antd";
 import {validateUrl} from "../../services/util.service";
-import {useConfigItemReduce} from "../../hooks/config-item.hook";
+import {useConfigItem} from "../../hooks/config-item.hook";
 import {useEffect, useState} from "react";
 import debounce from "lodash/debounce";
 
@@ -8,7 +8,7 @@ interface LogoUrlProps {
 }
 
 function LogoUrl(props: LogoUrlProps) {
-  const {dispatch, prevValue, config} = useConfigItemReduce('loginPageLogoBackUrl', 'Logo URL');
+  const {changeItemValue, prevValue, config} = useConfigItem('loginPageLogoBackUrl', 'Logo URL');
   const [state, setState] = useState(prevValue());
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function LogoUrl(props: LogoUrlProps) {
 
   function applyUrl(url: string): void {
     if (validateUrl(url) || url.length === 0) {
-      dispatch(url);
+      changeItemValue(url);
     }
   }
 
