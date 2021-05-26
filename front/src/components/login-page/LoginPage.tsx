@@ -9,6 +9,7 @@ import BackgroundPositionDesktop from "./BackgroundPositionDesktop";
 import BackgroundPositionMobile from "./BackgroundPositionMobile";
 import BackgroundSizeDesktop from "./BackgroundSizeDesktop";
 import BackgroundSizeMobile from "./BackgroundSizeMobile";
+import Address from "./Address";
 
 interface LoginPageProps extends RowProps {
   className: string;
@@ -32,6 +33,7 @@ function LoginPage(props: LoginPageProps) {
       <Col span={12}><BackgroundPositionMobile /></Col>
       <Col span={12}><BackgroundSizeDesktop /></Col>
       <Col span={12}><BackgroundSizeMobile /></Col>
+      <Col span={24}><Address /></Col>
     </Row>
   )
 }
