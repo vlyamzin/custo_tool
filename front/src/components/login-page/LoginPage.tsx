@@ -5,9 +5,10 @@ import LoginDesktopBgColor from "./LoginDesktopBgColor";
 import LoginMobileBgColor from "./LoginMobileBdColor";
 import BackgroundDesktop from "./BackgroundDesktop";
 import BackgroundMobile from "./BackgroundMobile";
-import SelectWithCustomValues from "../select-with-custom-values/SelectWithCustomValues";
 import BackgroundPositionDesktop from "./BackgroundPositionDesktop";
 import BackgroundPositionMobile from "./BackgroundPositionMobile";
+import BackgroundSizeDesktop from "./BackgroundSizeDesktop";
+import BackgroundSizeMobile from "./BackgroundSizeMobile";
 
 interface LoginPageProps extends RowProps {
   className: string;
@@ -29,6 +30,8 @@ function LoginPage(props: LoginPageProps) {
       <Col span={12}><BackgroundMobile /></Col>
       <Col span={12}><BackgroundPositionDesktop /></Col>
       <Col span={12}><BackgroundPositionMobile /></Col>
+      <Col span={12}><BackgroundSizeDesktop /></Col>
+      <Col span={12}><BackgroundSizeMobile /></Col>
     </Row>
   )
 }
