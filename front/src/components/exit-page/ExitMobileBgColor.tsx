@@ -1,14 +1,14 @@
 import {useConfigItem} from "../../hooks/config-item.hook";
 import GenericColorControl from "../generics/generic-color-control/GenericColorControl";
 
-interface LoginMobileBgColorProps {
+interface ExitMobileBgColorProps {
 
 }
 
-function LoginMobileBgColor(props: LoginMobileBgColorProps) {
-  const {changeItemValue, prevValue, config} = useConfigItem('loginPageBackgroundColorMobile', 'mobile background color');
+function ExitMobileBgColor(props: ExitMobileBgColorProps) {
+  const {changeItemValue, prevValue, config} = useConfigItem('thanksPageBackgroundColorMobile', 'mobile background color');
   const label = 'Mobile background color';
   return GenericColorControl({changeItemValue, prevValue, config, label});
 }
 
-export default LoginMobileBgColor;
+export default ExitMobileBgColor;
