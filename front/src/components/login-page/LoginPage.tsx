@@ -13,6 +13,7 @@ import Address from "./Address";
 import Disclaimer from "./Disclaimer";
 import DisclaimerTheme from "./DisclaimerTheme";
 import LoginFormTheme from "./LoginFormTheme";
+import GDPR from "./GDPR";
 
 interface LoginPageProps extends RowProps {
   className: string;
@@ -44,6 +45,7 @@ function LoginPage(props: LoginPageProps) {
       <Col span={24} className={'no-padding'}>
         <Col span={12}><LoginFormTheme /></Col>
       </Col>
+      <Col span={24}><GDPR /></Col>
     </Row>
   )
 }
