@@ -12,7 +12,7 @@ function App() {
     <div className='App'>
       <Row gutter={[24, 24]}>
         <ConfigProvider>
-          <Col span={12} className={'separator'}>
+          <Col span={12} className={'separator'} style={{height: '100%', overflow: 'auto'}}>
             <PlatformLoader/>
             <FormType />
           </Col>
