@@ -5,8 +5,7 @@ import LoginDesktopBgColor from "./LoginDesktopBgColor";
 import LoginMobileBgColor from "./LoginMobileBdColor";
 import BackgroundDesktop from "./BackgroundDesktop";
 import BackgroundMobile from "./BackgroundMobile";
-import BackgroundPositionDesktop from "./BackgroundPositionDesktop";
-import BackgroundPositionMobile from "./BackgroundPositionMobile";
+import BackgroundPosition from "./BackgroundPosition";
 import BackgroundSizeDesktop from "./BackgroundSizeDesktop";
 import BackgroundSizeMobile from "./BackgroundSizeMobile";
 import Address from "./Address";
@@ -33,8 +32,16 @@ function LoginPage(props: LoginPageProps) {
       <Col span={12}><LoginMobileBgColor /></Col>
       <Col span={12}><BackgroundDesktop /></Col>
       <Col span={12}><BackgroundMobile /></Col>
-      <Col span={12}><BackgroundPositionDesktop /></Col>
-      <Col span={12}><BackgroundPositionMobile /></Col>
+      <Col span={12}>
+        <BackgroundPosition type={'loginPageBackgroundPositionDesktop'}
+                            tooltipPart={'DESKTOP login page'}
+                            label={'Desktop background position'}/>
+      </Col>
+      <Col span={12}>
+        <BackgroundPosition type={'loginPageBackgroundPositionMobile'}
+                            tooltipPart={'MOBILE login page'}
+                            label={'Mobile background position'} />
+      </Col>
       <Col span={12}><BackgroundSizeDesktop /></Col>
       <Col span={12}><BackgroundSizeMobile /></Col>
       <Col span={24}><Address /></Col>
