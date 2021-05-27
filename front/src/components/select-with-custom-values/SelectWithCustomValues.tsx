@@ -2,7 +2,7 @@ import './SelectWithCustomValues.css'
 import {Button, Input, Select, Tooltip} from "antd";
 import {ChangeEvent, ReactElement, useState} from "react";
 import {InfoCircleOutlined} from "@ant-design/icons";
-import {debounce} from "lodash-es";
+import {useDebounce} from "../../hooks/debounce.hook";
 
 interface SelectWithCustomValuesProps {
   tooltip?: string;
@@ -14,6 +14,7 @@ interface SelectWithCustomValuesProps {
 
 function SelectWithCustomValues(props: SelectWithCustomValuesProps) {
   const [customView, toggleCustomView] = useState(false);
+  const {inputText: customValue, setInputText: setCustomValue} = useDebounce<string>(props.onChange, props.value, 300)
   const items = props.options.map((l, i) => (
     <Select.Option value={l} key={i + 1}>{l}</Select.Option>
   ));
@@ -21,8 +22,8 @@ function SelectWithCustomValues(props: SelectWithCustomValuesProps) {
 
   function getInput(): ReactElement {
     const inputProps = {
-      onChange: (event: ChangeEvent<HTMLInputElement>) => { debounce(() => { props.onChange(event.target.value) }, 300)() },
-      defaultValue: props.value,
+      onChange: (event: ChangeEvent<HTMLInputElement>) => { setCustomValue(event.target.value) },
+      value: customValue,
       placeholder: 'Type value'
     };
 
@@ -34,7 +35,7 @@ function SelectWithCustomValues(props: SelectWithCustomValuesProps) {
                    <InfoCircleOutlined style={{color: 'rgba(0,0,0,.45)'}}/>
                  </Tooltip>
                }/>
-      : <Input type={'text'} {...inputProps}/>
+      : <Input type={'text'} {...inputProps} />
   }
 
   function getControl(): ReactElement {

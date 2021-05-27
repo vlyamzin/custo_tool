@@ -1,35 +1,23 @@
-import {useState} from "react";
-import useConstant from "use-constant";
-import AwesomeDebouncePromise from "awesome-debounce-promise";
-import {useAsync} from "react-async-hook";
+import {useCallback, useEffect, useState} from "react";
+import {debounce} from "lodash-es";
 
-export function useDebounce(searchFunction: (...arg: any[]) => any, initialValue: string, time: number) {
-  // Handle the input text state
+export function useDebounce<T>(action: (value: T) => any, initialValue: T, time: number) {
   const [inputText, setInputText] = useState(initialValue);
 
-  // Debounce the original search async function
-  const debouncedSearchFunction = useConstant(() =>
-    AwesomeDebouncePromise(searchFunction, time)
-  );
+  const updateValue = () => {
+    action(inputText);
+  }
 
-  // The async callback is run each time the text changes,
-  // but as the search function is debounced, it does not
-  // fire a new request on each keystroke
-  const searchResults = useAsync(
-    async () => {
-      if (inputText.length === 0) {
-        return [];
-      } else {
-        return debouncedSearchFunction(inputText);
-      }
-    },
-    [debouncedSearchFunction, inputText]
-  );
+  const delay = useCallback(debounce(updateValue, time), [inputText]);
 
-  // Return everything needed for the hook consumer
+  useEffect(() => {
+    delay();
+    // Cancel the debounce on useEffect cleanup.
+    return delay.cancel;
+  }, [inputText, delay]);
+
   return {
     inputText,
-    setInputText,
-    searchResults,
+    setInputText
   };
 }

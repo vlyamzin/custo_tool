@@ -1,7 +1,7 @@
 import {useConfigItem} from "../../hooks/config-item.hook";
 import {useEffect, useState} from "react";
 import TextArea from "antd/es/input/TextArea";
-import {debounce} from "lodash-es";
+import {useDebounce} from "../../hooks/debounce.hook";
 
 interface AddressProps {
 
@@ -9,7 +9,7 @@ interface AddressProps {
 
 function Address(props: AddressProps) {
   const {prevValue, config, changeItemValue} = useConfigItem('loginPageAddressText', 'address');
-  const [address, setAddress] = useState(decodeInput(prevValue()));
+  const {inputText: address, setInputText: setAddress} = useDebounce(onChange, decodeInput(prevValue()), 500);
   const placeholder = `Ex: Tour D2\n17, Place des Reflets\n92400 COURBEVOIE`;
 
   useEffect(() => {
@@ -26,16 +26,16 @@ function Address(props: AddressProps) {
   }
 
   function onChange(value: string): void {
-    setAddress(value);
     const encodedValue = encodeInput(value);
-    debounce(() => { changeItemValue(encodedValue) }, 1000)();
+    changeItemValue(encodedValue);
   }
 
   return (
     <div>
       <label className={'selectLabel'} htmlFor="address">Address</label>
       <TextArea value={address}
-                onChange={e => onChange(e.target.value)}
+                name={'address'}
+                onChange={e => setAddress(e.target.value)}
                 allowClear
                 placeholder={placeholder} autoSize={{minRows: 4, maxRows: 4}} />
     </div>

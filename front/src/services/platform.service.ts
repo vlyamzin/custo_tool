@@ -20,34 +20,34 @@ export interface PlatformCustomizationItem<T> {
 }
 
 export interface PlatformCustomization {
-  loginPageLogoUrl: [PlatformCustomizationItem<string>];
-  loginPageLogoBackUrl: [PlatformCustomizationItem<string>];
-  loginPageBackgroundColorDesktop: [PlatformCustomizationItem<string>];
-  loginPageBackgroundColorMobile: [PlatformCustomizationItem<string>];
-  loginPageBackgroundImageDesktop: [PlatformCustomizationItem<string>];
-  loginPageBackgroundImageMobile: [PlatformCustomizationItem<string>];
-  loginPageBackgroundPositionDesktop: [PlatformCustomizationItem<string>];
-  loginPageBackgroundPositionMobile: [PlatformCustomizationItem<string>];
-  loginPageBackgroundSizeDesktop: [PlatformCustomizationItem<string>];
-  loginPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
-  loginPageAddressText: [PlatformCustomizationItem<string>];
-  loginPageDisclaimerText: [PlatformCustomizationItem<string>];
-  loginPageLegalBackgroundColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
-  loginPageTextColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
-  loginPageButtonColor: [PlatformCustomizationItem<string>];
-  loginPageGrpdText: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundColorDesktop: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundColorMobile: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundImageDesktop: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundImageMobile: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundPositionDesktop: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundPositionMobile: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundSizeDesktop: [PlatformCustomizationItem<string>];
-  thanksPageBackgroundSizeMobile: [PlatformCustomizationItem<string>];
-  thanksPageContainerColorTheme: [PlatformCustomizationItem<string | 'dark' | 'light'>];
-  thanksPageText: [PlatformCustomizationItem<string>];
-  thanksPageRedirectUrl: [PlatformCustomizationItem<string>];
-  thanksPageFormUrl: [PlatformCustomizationItem<string>];
+  loginPageLogoUrl: PlatformCustomizationItem<string>[];
+  loginPageLogoBackUrl: PlatformCustomizationItem<string>[];
+  loginPageBackgroundColorDesktop: PlatformCustomizationItem<string>[];
+  loginPageBackgroundColorMobile: PlatformCustomizationItem<string>[];
+  loginPageBackgroundImageDesktop: PlatformCustomizationItem<string>[];
+  loginPageBackgroundImageMobile: PlatformCustomizationItem<string>[];
+  loginPageBackgroundPositionDesktop: PlatformCustomizationItem<string>[];
+  loginPageBackgroundPositionMobile: PlatformCustomizationItem<string>[];
+  loginPageBackgroundSizeDesktop: PlatformCustomizationItem<string>[];
+  loginPageBackgroundSizeMobile: PlatformCustomizationItem<string>[];
+  loginPageAddressText: PlatformCustomizationItem<string>[];
+  loginPageDisclaimerText: PlatformCustomizationItem<string>[];
+  loginPageLegalBackgroundColorTheme: PlatformCustomizationItem<string | 'dark' | 'light'>[];
+  loginPageTextColorTheme: PlatformCustomizationItem<string | 'dark' | 'light'>[];
+  loginPageButtonColor: PlatformCustomizationItem<string>[];
+  loginPageGrpdText: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundColorDesktop: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundColorMobile: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundImageDesktop: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundImageMobile: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundPositionDesktop: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundPositionMobile: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundSizeDesktop: PlatformCustomizationItem<string>[];
+  thanksPageBackgroundSizeMobile: PlatformCustomizationItem<string>[];
+  thanksPageContainerColorTheme: PlatformCustomizationItem<string | 'dark' | 'light'>[];
+  thanksPageText: PlatformCustomizationItem<string>[];
+  thanksPageRedirectUrl: PlatformCustomizationItem<string>[];
+  thanksPageFormUrl: PlatformCustomizationItem<string>[];
 }
 
 class PlatformService {

@@ -1,7 +1,7 @@
 import ColorPicker from "../color-picker/ColorPicker";
 import {useConfigItem} from "../../hooks/config-item.hook";
 import {useEffect, useState} from "react";
-import {debounce} from "lodash-es";
+import {useDebounce} from "../../hooks/debounce.hook";
 
 interface LoginDesktopBgColorProps {
 
@@ -9,21 +9,20 @@ interface LoginDesktopBgColorProps {
 
 function LoginDesktopBgColor(props: LoginDesktopBgColorProps) {
   const {changeItemValue, prevValue, config} = useConfigItem('loginPageBackgroundColorDesktop', 'desktop background color');
-  const [color, setColor] = useState(prevValue());
+  const {inputText: color, setInputText: setColor} = useDebounce<string>(onChange, prevValue(), 500);
 
   useEffect(() => {
     setColor(prevValue())
   }, [config.selectedLocale]);
 
   function onChange(color: string): void {
-    setColor(color);
-    debounce(() => changeItemValue(color), 1000)();
+    changeItemValue(color);
   }
 
   return (
     <div>
       <label className={'selectLabel'}>Desktop background color</label>
-      <ColorPicker color={color} onChange={onChange} onClear={() => onChange('')}/>
+      <ColorPicker color={color} onChange={c => setColor(c) } onClear={() => setColor('')}/>
     </div>
   )
 }

@@ -1,18 +1,18 @@
 import {Input} from "antd";
 import {validateUrl} from "../../services/util.service";
 import {useConfigItem} from "../../hooks/config-item.hook";
-import {useEffect, useState} from "react";
-import debounce from "lodash/debounce";
+import {useEffect} from "react";
+import {useDebounce} from "../../hooks/debounce.hook";
 
 interface LogoUrlProps {
 }
 
 function LogoUrl(props: LogoUrlProps) {
   const {changeItemValue, prevValue, config} = useConfigItem('loginPageLogoBackUrl', 'Logo URL');
-  const [state, setState] = useState(prevValue());
+  const {inputText, setInputText} = useDebounce(applyUrl, prevValue(), 500);
 
   useEffect(() => {
-    setState(prevValue());
+    setInputText(prevValue());
   }, [config.selectedLocale]);
 
   function applyUrl(url: string): void {
@@ -27,10 +27,9 @@ function LogoUrl(props: LogoUrlProps) {
       <Input placeholder={'Address'}
              name={'logo-url'}
              type={'url'}
-             value={state}
+             value={inputText}
              onChange={e => {
-               setState(e.target.value);
-               debounce(() => { applyUrl(e.target.value) }, 500)();
+               setInputText(e.target.value);
              }}/>
     </div>
   )
