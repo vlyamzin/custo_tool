@@ -3,7 +3,9 @@ import ExitDesktopBgColor from "./ExitDesktopBgColor";
 import ExitMobileBgColor from "./ExitMobileBgColor";
 import ExitBackgroundDesktop from "./ExitBackgroundDesktop";
 import ExitBackgroundMobile from "./ExitBackgroundMobile";
-import BackgroundPosition from "../login-page/BackgroundPosition";
+import BackgroundPosition from "../background-position/BackgroundPosition";
+import BackgroundSize from "../background-size/BackgroundSize";
+import ExitFormTheme from "./ExitFormTheme";
 
 interface ExitPageProps {
   className: string;
@@ -26,6 +28,19 @@ function ExitPage(props: ExitPageProps) {
         <BackgroundPosition type={'thanksPageBackgroundPositionMobile'}
                             tooltipPart={'MOBILE exit page'}
                             label={'Mobile background position'} />
+      </Col>
+      <Col span={12}>
+        <BackgroundSize type={'thanksPageBackgroundSizeDesktop'}
+                        tooltipPart={'DESKTOP login page'}
+                        label={'Desktop background size'}/>
+      </Col>
+      <Col span={12}>
+        <BackgroundSize type={'thanksPageBackgroundSizeMobile'}
+                        tooltipPart={'MOBILE login page'}
+                        label={'Mobile background size'}/>
+      </Col>
+      <Col span={24} className={'no-padding'}>
+        <Col span={12}><ExitFormTheme /></Col>
       </Col>
     </Row>
   )

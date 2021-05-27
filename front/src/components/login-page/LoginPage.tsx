@@ -5,9 +5,8 @@ import LoginDesktopBgColor from "./LoginDesktopBgColor";
 import LoginMobileBgColor from "./LoginMobileBdColor";
 import BackgroundDesktop from "./BackgroundDesktop";
 import BackgroundMobile from "./BackgroundMobile";
-import BackgroundPosition from "./BackgroundPosition";
-import BackgroundSizeDesktop from "./BackgroundSizeDesktop";
-import BackgroundSizeMobile from "./BackgroundSizeMobile";
+import BackgroundPosition from "../background-position/BackgroundPosition";
+import BackgroundSize from "../background-size/BackgroundSize";
 import Address from "./Address";
 import Disclaimer from "./Disclaimer";
 import DisclaimerTheme from "./DisclaimerTheme";
@@ -42,8 +41,16 @@ function LoginPage(props: LoginPageProps) {
                             tooltipPart={'MOBILE login page'}
                             label={'Mobile background position'} />
       </Col>
-      <Col span={12}><BackgroundSizeDesktop /></Col>
-      <Col span={12}><BackgroundSizeMobile /></Col>
+      <Col span={12}>
+        <BackgroundSize type={'loginPageBackgroundSizeDesktop'}
+                        tooltipPart={'DESKTOP login page'}
+                        label={'Desktop background size'}/>
+      </Col>
+      <Col span={12}>
+        <BackgroundSize type={'loginPageBackgroundSizeMobile'}
+                        tooltipPart={'MOBILE login page'}
+                        label={'Mobile background size'}/>
+      </Col>
       <Col span={24}><Address /></Col>
       <Col span={24}><Disclaimer /></Col>
       <Col span={24} className={'no-padding'}>
