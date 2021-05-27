@@ -11,6 +11,8 @@ import BackgroundSizeDesktop from "./BackgroundSizeDesktop";
 import BackgroundSizeMobile from "./BackgroundSizeMobile";
 import Address from "./Address";
 import Disclaimer from "./Disclaimer";
+import DisclaimerTheme from "./DisclaimerTheme";
+import LoginFormTheme from "./LoginFormTheme";
 
 interface LoginPageProps extends RowProps {
   className: string;
@@ -36,6 +38,12 @@ function LoginPage(props: LoginPageProps) {
       <Col span={12}><BackgroundSizeMobile /></Col>
       <Col span={24}><Address /></Col>
       <Col span={24}><Disclaimer /></Col>
+      <Col span={24} className={'no-padding'}>
+        <Col span={12}><DisclaimerTheme /></Col>
+      </Col>
+      <Col span={24} className={'no-padding'}>
+        <Col span={12}><LoginFormTheme /></Col>
+      </Col>
     </Row>
   )
 }
