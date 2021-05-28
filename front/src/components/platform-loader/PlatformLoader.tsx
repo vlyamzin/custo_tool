@@ -12,11 +12,18 @@ interface PlatformLoaderProps {
 
 function PlatformLoader(props: PlatformLoaderProps): ReactElement {
   const {config, setConfig} = useConfig();
+  const [loading, showSpinner] = useState(false);
   const [hideForm, changeFormVisibility] = useState(config.status === 'loaded');
 
   async function loadPlatforms(platformUrl: string): Promise<void> {
+    if (loading) {
+      return;
+    }
+
     try {
+      showSpinner(true);
       const remoteConfig = await platformService.getCustomization(platformUrl);
+      showSpinner(false);
       if (remoteConfig) {
         setConfig({
           status: 'loaded',
@@ -27,6 +34,7 @@ function PlatformLoader(props: PlatformLoaderProps): ReactElement {
         changeFormVisibility(true);
       }
     } catch (e) {
+      showSpinner(false);
       notification.open({
         message: 'Connection Issue',
         type: 'error',
@@ -39,7 +47,7 @@ function PlatformLoader(props: PlatformLoaderProps): ReactElement {
   return (
     hideForm
       ? <DomainLabel url={config.platformUrl} onShowForm={() => { changeFormVisibility(false) }}/>
-      : <DomainInput url={config.platformUrl} onSubmit={loadPlatforms}/>
+      : <DomainInput url={config.platformUrl} onSubmit={loadPlatforms} isLoading={loading} />
   )
 }
 

@@ -1,16 +1,19 @@
 import {Button, Col, Input, Row} from 'antd';
 import classNames from 'classnames';
-import {ReactElement, useState} from 'react';
+import {ReactElement, useEffect, useState} from 'react';
 import {validateUrl} from "../../services/util.service";
+import {LoadingOutlined} from "@ant-design/icons";
 
 interface DomainInputProps {
   url: string;
-  onSubmit: (value: string) => void
+  onSubmit: (value: string) => void;
+  isLoading: boolean;
 }
 
 function DomainInput (props: DomainInputProps): ReactElement {
   const invalidPlatformUrlMessage = 'Platform URL is not valid';
   const [domain, setDomain] = useState(props.url);
+
   const [validationError, showValidationError] = useState('');
 
   function validateAndSubmit() {
@@ -41,7 +44,10 @@ function DomainInput (props: DomainInputProps): ReactElement {
                }}/>
       </Col>
       <Col span={12}>
-        <Button type={'primary'} disabled={domain?.length === 0} onClick={validateAndSubmit}>Load</Button>
+        <Button type={'primary'} disabled={domain?.length === 0} onClick={validateAndSubmit}>
+          {props.isLoading ? 'Loading' : 'Load'}
+          {props.isLoading ? <LoadingOutlined />  : null }
+        </Button>
       </Col>
       <Col span={24}
            className={
