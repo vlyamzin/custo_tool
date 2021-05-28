@@ -7,6 +7,7 @@ import BackgroundPosition from "../background-position/BackgroundPosition";
 import BackgroundSize from "../background-size/BackgroundSize";
 import ExitFormTheme from "./ExitFormTheme";
 import ExitMessage from "./ExitMessage";
+import ExitRedirectUrl from "./ExitRedirectUrl";
 
 interface ExitPageProps {
   className: string;
@@ -44,6 +45,9 @@ function ExitPage(props: ExitPageProps) {
         <Col span={12}><ExitFormTheme /></Col>
       </Col>
       <Col span={24}><ExitMessage /></Col>
+      <Col span={24} className={'no-padding'}>
+        <Col span={12}><ExitRedirectUrl /></Col>
+      </Col>
     </Row>
   )
 }
