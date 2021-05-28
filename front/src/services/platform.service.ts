@@ -163,6 +163,36 @@ class PlatformService {
         return false;
       });
   }
+
+  public getCustomizationZip(): Promise<any> {
+    const {baseUrl} = environment;
+    const request = new Request(`${baseUrl}platform/zip`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    
+    return fetch(request)
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error('ZIP download has failed');
+        } else {
+          return response.blob();
+        }
+      })
+      .then((blob) => {
+        const file = window.URL.createObjectURL(blob);
+        window.location.assign(file);
+        return true;
+      })
+      .catch(err => {
+        console.error(err);
+        notification.error({
+          message: 'Download error',
+          description: `Can't download customization archive`
+        });
+        return false;
+      })
+  }
 }
 
 const platformService = new PlatformService();

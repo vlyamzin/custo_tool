@@ -2,6 +2,7 @@ import {dirname} from "path";
 import {fileURLToPath} from "url";
 import fs from 'fs';
 import https from 'https';
+import archiver from 'archiver';
 
 /**
  * @function nodeBTOA
@@ -93,5 +94,20 @@ export function saveFile(filePath, content) {
     fs.writeFile(filePath, content, (err) => {
       err ? reject(err) : resolve();
     });
+  });
+}
+
+export async function createZipArchive(path, name) {
+  const archive = archiver('zip', { zlib: { level: 9 }});
+  const stream = fs.createWriteStream(`${path}/${name}`);
+
+  return new Promise((resolve, reject) => {
+    archive
+      .directory(path, false)
+      .on('error', err => reject(err))
+      .pipe(stream);
+
+    stream.on('close', () => resolve(true));
+    archive.finalize();
   });
 }

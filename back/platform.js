@@ -1,7 +1,9 @@
-import {nodeBTOA, parseIp, downloadFile, saveFile} from "./util.js";
+import {nodeBTOA, parseIp, downloadFile, saveFile, createZipArchive} from "./util.js";
 import axios from "axios";
 import fs from 'fs';
+import path from 'path';
 import PlatformUpdate from "./platform-update.js";
+import {cookieValidator} from "./cookie-validator.js";
 
 class Platform {
   constructor(app, di) {
@@ -37,6 +39,23 @@ class Platform {
         });
       }
     });
+
+    this.app.get('/api/v1/platform/zip', cookieValidator, async (req, res) => {
+      try {
+        const {session, platformId} = req;
+        const folderPath = path.join(this.di.userService.getUserFolderPath(session), platformId);
+        const zipName = `assets_${platformId}.zip`;
+        const result = await createZipArchive(folderPath, zipName);
+
+        if (result) {
+          this.#sendZip(`${folderPath}/${zipName}`, zipName, res);
+        } else {
+          res.status(500).send('Error');
+        }
+      } catch (e) {
+        res.status(500).send('Error');
+      }
+    })
   }
 
   fetchConfig(url) {
@@ -50,7 +69,7 @@ class Platform {
     return new Promise((resolve, reject) => {
       try {
         const platformName = this.#getPlatformId(platform);
-        const folderPath = this.di.userService.getUserFolderPath(user) + `/${platformName}`;
+        const folderPath = path.join(this.di.userService.getUserFolderPath(user), platformName);
         fs.mkdir(folderPath, {recursive: true}, (err) => {
           if (err) {
             console.log(err);
@@ -90,6 +109,26 @@ class Platform {
 
   #getPlatformId(platform) {
     return platform.replace(/[\.-]/g, '').split('//')[1]
+  }
+
+  #sendZip(zip, name, res) {
+    const options = {
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true,
+        'Content-Disposition': `attachment; filename=${name}"`,
+        'Content-Type': 'application/zip'
+      }
+    };
+
+    res.sendFile(zip, options, (err) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(`[OK] Sent ZIP`)
+      }
+    })
   }
 
 
