@@ -19,8 +19,8 @@ interface LoginPageProps extends RowProps {
 
 function LoginPage(props: LoginPageProps) {
   return (
-    <Row gutter={[20, 16]} {...props}>
-      <Col span={24}><h2>Login Page</h2></Col>
+    <Row gutter={[20, 20]} {...props}>
+      <Col span={24}><h2 className={'section-heading'}>Login Page</h2></Col>
       <Col span={24} className={'no-padding'}>
         <Col span={12}><Logo /></Col>
       </Col>

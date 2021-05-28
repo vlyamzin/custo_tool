@@ -14,8 +14,8 @@ interface ExitPageProps {
 
 function ExitPage(props: ExitPageProps) {
   return (
-    <Row gutter={[20, 16]} {...props}>
-      <Col span={24}><h2>Exit Page</h2></Col>
+    <Row gutter={[20, 20]} {...props}>
+      <Col span={24}><h2 className={'section-heading'}>Exit Page</h2></Col>
       <Col span={12}><ExitDesktopBgColor /></Col>
       <Col span={12}><ExitMobileBgColor /></Col>
       <Col span={12}><ExitBackgroundDesktop /></Col>

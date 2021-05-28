@@ -11,8 +11,8 @@ interface GeneralSettingsProps extends RowProps {
 
 function GeneralSettings(props: GeneralSettingsProps) {
   return (
-    <Row gutter={[20, 7]} {...props}>
-      <Col span={24}><h2>General Settings</h2></Col>
+    <Row gutter={[20, 16]} {...props}>
+      <Col span={24}><h2 className={'section-heading'}>General Settings</h2></Col>
       <Col span={12}>
         <AvailableLocales />
       </Col>

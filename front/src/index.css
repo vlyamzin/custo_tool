@@ -12,6 +12,12 @@ code {
     monospace;
 }
 
+h2.section-heading {
+  margin-top: 20px;
+  border-left: 5px solid #efefef;
+  padding-left: 20px;
+}
+
 .hidden {
   display: none !important;
 }
@@ -25,6 +31,7 @@ code {
 }
 
 .selectLabel {
+  font-size: 0.9em;
   display: block;
 }
 
