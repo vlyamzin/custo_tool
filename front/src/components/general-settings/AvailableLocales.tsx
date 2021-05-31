@@ -1,7 +1,7 @@
 import {Select} from 'antd';
 import {useConfig} from '../../services/config.provider';
 import {availableLocales} from '../../locales';
-import platformService from '../../services/platform.service';
+import platformService, {PlatformCustomizationItem} from '../../services/platform.service';
 
 interface AvailableLocaleProps {
 }
@@ -12,7 +12,12 @@ function AvailableLocale(props: AvailableLocaleProps) {
     <Select.Option value={l} key={i}>{l}</Select.Option>
   ));
 
-
+  function deleteCustomizationPart(locale: string): void {
+    for (let [type, items] of Object.entries(config.customization)) {
+      const index = items.findIndex((i: PlatformCustomizationItem<any>) => i.locale === locale);
+      index && items.splice(index, 1);
+    }
+  }
 
   async function onLocaleSelect(locale: string): Promise<void> {
     const {availableLocales} = config.params;
@@ -27,8 +32,15 @@ function AvailableLocale(props: AvailableLocaleProps) {
     if (availableLocales[index] === defaultLocale) {
       config.params.defaultLocale = '';
     }
+    if (availableLocales[index] === config.selectedLocale) {
+      config.selectedLocale = '';
+    }
     index > -1 && availableLocales.splice(index, 1);
-    const res = await platformService.setParams(config.params, 'Available locales were not set');
+    deleteCustomizationPart(locale);
+    const res = await Promise.all([
+      platformService.setParams(config.params, 'Available locales were not unset'),
+      platformService.setCustomization(config.customization, 'Available locales were not unset')
+    ]);
     res && setConfig({...config});
   }
 
