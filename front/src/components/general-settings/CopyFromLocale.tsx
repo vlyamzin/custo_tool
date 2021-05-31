@@ -9,7 +9,7 @@ interface CopyFromLocaleProps {
 }
 
 function CopyFromLocale(props: CopyFromLocaleProps) {
-  const {config, setConfig} = useConfig();
+  const {config, setConfig, forceUpdate} = useConfig();
   const [locale, setLocale] = useState();
 
   function options(): Array<ReactElement> {
@@ -48,6 +48,7 @@ function CopyFromLocale(props: CopyFromLocaleProps) {
 
     const res = await platformService.setCustomization(c, 'Unable to copy from selected locale');
     res && setConfig({...config});
+    forceUpdate && forceUpdate();
   }
 
   return (

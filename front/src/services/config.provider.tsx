@@ -1,4 +1,4 @@
-import {createContext, ReactElement, useContext, useEffect, useState} from 'react';
+import {createContext, ReactElement, useContext, useEffect, useReducer, useState} from 'react';
 import {PlatformCustomization, PlatformParams} from './platform.service';
 
 export type AppStatus = 'init' | 'loaded'
@@ -17,18 +17,18 @@ interface ConfigProviderProps {
 
 type Dispatch = (prev: ConfigContext | (() => ConfigContext)) => void;
 
-const ConfigContext = createContext<{config: ConfigContext, setConfig: Dispatch} | undefined>(undefined);
+const ConfigContext = createContext<{config: ConfigContext, setConfig: Dispatch, forceUpdate: () => void} | undefined>(undefined);
 
 function ConfigProvider(props: ConfigProviderProps) {
   const [config, setConfig] = useState<ConfigContext>(loadLocalConfig('config'));
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
   useEffect(() => {
     saveLocalConfig('config', config);
-  }, [config])
+  }, [config]);
 
-  const value = {config, setConfig};
-  console.log('ConfigProvider');
-  return <ConfigContext.Provider value={value}>{props.children}</ConfigContext.Provider>
+  const value = {config, setConfig, forceUpdate};
+  return <ConfigContext.Provider value={value} key={ignored}>{props.children}</ConfigContext.Provider>
 }
 
 function useConfig() {
