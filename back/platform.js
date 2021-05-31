@@ -17,12 +17,12 @@ class Platform {
   init() {
     this.app.post('/api/v1/platform/config', async (req, res) => {
       try {
-        const [params, custo] = await this.fetchConfig(req.body.url);
+        const [params, custo] = await this.#fetchConfig(req.body.url);
         const user = req.header('user-token') || await this.di.userService.createUserFolder(parseIp(req));
-        const platformFolder = await this.createPlatformFolder(req.body.url, user);
+        const platformFolder = await this.#createPlatformFolder(req.body.url, user);
         const platformId = nodeBTOA(this.#getPlatformId(req.body.url));
         const response = Object.assign({}, {params: params.data}, {customization: custo.data});
-        const filesToDownload = this.parseCustomization(response.customization);
+        const filesToDownload = this.#parseCustomization(response.customization);
         await Promise.all([
           saveFile(`${platformFolder}/custo.json`, JSON.stringify(custo.data)),
           saveFile(`${platformFolder}/params.json`, JSON.stringify(params.data))
@@ -58,14 +58,14 @@ class Platform {
     })
   }
 
-  fetchConfig(url) {
+  #fetchConfig(url) {
     return Promise.all([
       axios.get(`${url}/assets/custo/params.json`),
       axios.get(`${url}/assets/custo/custo.json`)
     ]);
   }
 
-  createPlatformFolder(platform, user) {
+  #createPlatformFolder(platform, user) {
     return new Promise((resolve, reject) => {
       try {
         const platformName = this.#getPlatformId(platform);
@@ -83,7 +83,7 @@ class Platform {
     });
   }
 
-  parseCustomization(file) {
+  #parseCustomization(file) {
     let itemsToDownload = [];
     const regExGlobal = /assets\/custo\/[\w\d\._-]+\.[\w\d]+/gm;
     const regEx = /assets\/custo\/[\w\d\._-]+\.[\w\d]+/m;
