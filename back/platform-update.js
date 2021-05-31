@@ -21,7 +21,7 @@ class PlatformUpdate {
     this.app.post('/api/v1/platform/update/customization', cookieValidator, (req, res) => {
       try {
         const {session, platformId, body} = req;
-        this.#writeConfigFile(session, platformId, body.config)
+        this.#writeConfigFile(session, platformId, body.config, 'custo.json')
           .then(() => {
             res.status(200).send('OK');
           })
@@ -44,7 +44,7 @@ class PlatformUpdate {
     this.app.put('/api/v1/platform/update/customization', cookieValidator, async (req, res) => {
       try {
         const {session, platformId, body} = req;
-        const config = await this.#readConfigFile(session, platformId);
+        const config = await this.#readConfigFile(session, platformId, 'custo.json');
         if (config) {
           if (!config[body.type]) {
             config[body.type] = [];
@@ -57,7 +57,7 @@ class PlatformUpdate {
             item.value = body.value;
           }
 
-          this.#writeConfigFile(session, platformId, config)
+          this.#writeConfigFile(session, platformId, config, 'custo.json')
             .then(() => {
               res.json(config);
             })
@@ -82,12 +82,12 @@ class PlatformUpdate {
     this.app.delete('/api/v1/platform/update/customization', cookieValidator, async (req, res) => {
       try {
         const {session, platformId, body} = req;
-        const config = await this.#readConfigFile(session, platformId);
+        const config = await this.#readConfigFile(session, platformId, 'custo.json');
         if (config) {
           const itemIndex = (config[body.type] || []).findIndex(item => item.locale === body.locale);
           if (itemIndex > -1 ) {
             config[body.type].splice(itemIndex, 1);
-            this.#writeConfigFile(session, platformId, config)
+            this.#writeConfigFile(session, platformId, config, 'custo.json')
               .then(() => {
                 res.status(200).send('OK');
               })
@@ -103,12 +103,32 @@ class PlatformUpdate {
       } catch(err) {
         res.status(500).send(err.message || 'Unknown error');
       }
+    });
+
+    /**
+     * Update the items in the parameters config
+     * Body params:
+     * config {object} - JSON object with params config
+     */
+    this.app.post('/api/v1/platform/update/params', cookieValidator, (req, res) => {
+      try {
+        const {session, platformId, body} = req;
+        this.#writeConfigFile(session, platformId, body.config, 'params.json')
+          .then(() => {
+            res.status(200).send('OK');
+          })
+          .catch((err) => {
+            res.status(400).send(err.message);
+          })
+      } catch (err) {
+        res.status(500).send(err.message || 'Unknown error');
+      }
     })
   }
 
-  #readConfigFile(session, platform) {
+  #readConfigFile(session, platform, type) {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(this.di.userService.getUserFolderPath(session), platform, 'custo.json'), (err, data) => {
+      fs.readFile(path.join(this.di.userService.getUserFolderPath(session), platform, type), (err, data) => {
         if (err) {
           reject(err);
           return;
@@ -123,9 +143,9 @@ class PlatformUpdate {
     })
   }
 
-  #writeConfigFile(session, platformId, config) {
+  #writeConfigFile(session, platformId, config, type) {
     return new Promise((resolve, reject) => {
-      fs.writeFile(path.join(this.di.userService.getUserFolderPath(session), platformId, 'custo.json'),
+      fs.writeFile(path.join(this.di.userService.getUserFolderPath(session), platformId, type),
         JSON.stringify(config),
         (err) => {
           if (err) {

@@ -79,19 +79,25 @@ class PlatformService {
       })
   }
 
-  public setParams(params: Object, errorMsg: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      console.log('Save params: ', params);
+  public setParams(params: PlatformParams, errorMsg: string): Promise<boolean> {
+    const {baseUrl} = environment;
+    const request = PlatformService.createRequestObject('POST',`${baseUrl}platform/update/params`, {config: params});
 
-      // TODO check server response and show error if it failed
-      if (false) {
+    return fetch(request)
+      .then((response: Response) => {
+        if (!response.ok) {
+          throw new Error(`Can't set params config`);
+        }
+        return true;
+      })
+      .catch(err => {
+        console.error(err);
         notification.error({
           message: 'Synchronization error',
           description: errorMsg
         });
-      }
-      resolve(true);
-    })
+        return false;
+      });
   }
 
   public setCustomization(custo: Object, errorMsg: string): Promise<boolean> {

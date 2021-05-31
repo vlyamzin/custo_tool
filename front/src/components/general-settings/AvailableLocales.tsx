@@ -17,7 +17,7 @@ function AvailableLocale(props: AvailableLocaleProps) {
   async function onLocaleSelect(locale: string): Promise<void> {
     const {availableLocales} = config.params;
     availableLocales.push(locale);
-    const res = await platformService.setParams(availableLocales, 'Available locales were not set');
+    const res = await platformService.setParams(config.params, 'Available locales were not set');
     res && setConfig({...config});
   }
 
@@ -28,7 +28,8 @@ function AvailableLocale(props: AvailableLocaleProps) {
       config.params.defaultLocale = '';
     }
     index > -1 && availableLocales.splice(index, 1);
-    setConfig({...config});
+    const res = await platformService.setParams(config.params, 'Available locales were not set');
+    res && setConfig({...config});
   }
 
   return (

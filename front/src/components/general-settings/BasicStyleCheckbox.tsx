@@ -13,7 +13,7 @@ function BasicStyleCheckbox(props: BasicStyleCheckboxProps) {
   async function onChange(e: CheckboxChangeEvent): Promise<void> {
     config.params.oceBasicStyle = e.target.checked;
     const res = await platformService.setParams(
-      {oceBasicStyle: config.params.oceBasicStyle},
+      config.params,
       `Can't use OCE basic style`
     );
 

@@ -19,7 +19,7 @@ function DefaultLocale(props: DefaultLocaleProps) {
   async function onLocaleSelect(locale: string): Promise<void> {
     config.params.defaultLocale = locale;
     const res = await platformService.setParams(
-      {defaultLocale: config.params.defaultLocale},
+      config.params,
       'Default locales was not set'
       );
     res && setConfig({...config});
