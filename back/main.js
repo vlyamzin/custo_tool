@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import {config} from './config.js';
 import {getDirname} from "./util.js";
 import Platform from './platform.js';
 import User from "./user.js";
@@ -7,11 +8,11 @@ import FileSubstitutor from "./file-substitutor.js";
 import FileUpload from "./file-upload.js";
 
 const app = express();
-const port = 4321;
+const port = config.port || 4321;
 const di = {};
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: config.domain || 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
