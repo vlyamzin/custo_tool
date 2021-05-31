@@ -21,8 +21,12 @@ function Disclaimer(props: DisclaimerProps) {
   }
 
   function onChange(value: EditorValue): void {
-    const str = value.toString('html');
-    changeItemValue(str);
+    const str = value.toString('markdown');
+    if (str.length > 2) {
+      changeItemValue(value.toString('html'))
+    } else {
+      changeItemValue('');
+    }
   }
 
   return (
