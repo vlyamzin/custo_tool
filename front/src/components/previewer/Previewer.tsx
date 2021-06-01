@@ -1,19 +1,34 @@
 import {environment} from '../../environment';
-import {useEffect, useState} from 'react';
+import {ComponentProps, useEffect, useState} from 'react';
 import './Previewer.css'
 import {useConfig} from '../../services/config.provider';
+import ActionButtons from "./ActionButtons";
 
-interface IframeProps {
-  reload: any;
+interface IframeProps extends ComponentProps<any>{
+  url: string;
 }
 
-function Previewer() {
+interface PreviewerProps {
+  toggleFullscreen: (status: boolean) => void;
+}
+
+function Previewer(props: PreviewerProps) {
   const [upd, reloadIframe] = useState({ r: 0 });
+  const [mobileView, setMobileView] = useState(false);
+  const [remoteUrl, setUrl] = useState(environment.remote);
   const {config} = useConfig();
   useEffect(() => { reload() }, [config]);
 
   function reload(): void {
     reloadIframe({r: upd.r + 1})
+  }
+
+  function goToLogin(): void {
+    setUrl(environment.remote);
+  }
+
+  function goToExit(): void {
+    setUrl(environment.remote + '/exit');
   }
 
   function isHidden(): string {
@@ -22,16 +37,22 @@ function Previewer() {
 
   return (
     <aside className={isHidden()}>
-      <button onClick={() => reload()}>Refresh</button>
-      <Iframe key={upd.r} reload={upd}/>
+      <ActionButtons fullscreenAction={props.toggleFullscreen}
+                     reloadAction={reload}
+                     mobileAction={() => setMobileView(true)}
+                     desktopAction={() => setMobileView(false)}
+                     loginAction={goToLogin}
+                     exitAction={goToExit} />
+      <div className="preview-wrapper">
+        <Iframe key={upd.r} url={remoteUrl} className={mobileView ? 'mobile': null}/>
+      </div>
     </aside>
   )
 }
 
 function Iframe(props: IframeProps) {
-  const remoteUrl = environment.remote;
   return (
-    <iframe src={remoteUrl} width={'100%'} height={'100%'} frameBorder={0}></iframe>
+    <iframe src={props.url} width={'100%'} height={'100%'} frameBorder={0} {...props}></iframe>
   )
 }
 
