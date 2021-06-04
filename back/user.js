@@ -9,7 +9,7 @@ class User {
 
     return new Promise((resolve, reject) => {
       try {
-        fs.mkdir(this.getUserFolderPath(userhash), (err) => {
+        fs.mkdir(this.getUserFolderPath(userhash) + '/zips', {recursive: true}, (err) => {
           if (err) {
             console.log('The folder already exist');
           }

@@ -97,9 +97,9 @@ export function saveFile(filePath, content) {
   });
 }
 
-export async function createZipArchive(path, name) {
+export async function createZipArchive(path, name, out) {
   const archive = archiver('zip', { zlib: { level: 9 }});
-  const stream = fs.createWriteStream(`${path}/${name}`);
+  const stream = fs.createWriteStream(`${out}/${name}`);
 
   return new Promise((resolve, reject) => {
     archive

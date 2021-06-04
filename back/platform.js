@@ -43,12 +43,13 @@ class Platform {
     this.app.get('/api/v1/platform/zip', cookieValidator, async (req, res) => {
       try {
         const {session, platformId} = req;
-        const folderPath = path.join(this.di.userService.getUserFolderPath(session), platformId);
+        const platformFolder = path.join(this.di.userService.getUserFolderPath(session), platformId);
+        const zipFolder = path.join(this.di.userService.getUserFolderPath(session), 'zips');
         const zipName = `assets_${platformId}.zip`;
-        const result = await createZipArchive(folderPath, zipName);
+        const result = await createZipArchive(platformFolder, zipName, zipFolder);
 
         if (result) {
-          this.#sendZip(`${folderPath}/${zipName}`, zipName, res);
+          this.#sendZip(`${zipFolder}/${zipName}`, zipName, res);
         } else {
           res.status(500).send('Error');
         }
