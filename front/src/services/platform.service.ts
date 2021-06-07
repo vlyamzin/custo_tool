@@ -1,5 +1,6 @@
 import {environment} from '../environment';
 import {notification} from 'antd';
+import {getFilenameFromHeader} from "./util.service";
 
 export interface PlatformConfig {
   id: string;
@@ -172,6 +173,7 @@ class PlatformService {
 
   public getCustomizationZip(): Promise<any> {
     const {baseUrl} = environment;
+    let fileName = '';
     const request = new Request(`${baseUrl}platform/zip`, {
       method: 'GET',
       credentials: 'include'
@@ -182,12 +184,16 @@ class PlatformService {
         if (response.status !== 200) {
           throw new Error('ZIP download has failed');
         } else {
+          fileName = getFilenameFromHeader(response.headers.get('content-disposition'), 'zip');
           return response.blob();
         }
       })
       .then((blob) => {
         const file = window.URL.createObjectURL(blob);
-        window.location.assign(file);
+        const link = document.createElement('A') as HTMLAnchorElement;
+        link.href = file;
+        link.download = fileName;
+        link.click();
         return true;
       })
       .catch(err => {

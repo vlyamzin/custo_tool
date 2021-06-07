@@ -54,6 +54,7 @@ class Platform {
           res.status(500).send('Error');
         }
       } catch (e) {
+        console.log(e);
         res.status(500).send('Error');
       }
     })
@@ -118,12 +119,11 @@ class Platform {
       headers: {
         'x-timestamp': Date.now(),
         'x-sent': true,
-        'Content-Disposition': `attachment; filename=${name}"`,
-        'Content-Type': 'application/zip'
+        'Access-Control-Expose-Headers': 'Content-Disposition'
       }
     };
 
-    res.sendFile(zip, options, (err) => {
+    res.download(zip, name, options, (err) => {
       if(err) {
         console.log(err);
       } else {
