@@ -1,13 +1,19 @@
-import {Button, Upload} from "antd";
+import {Button, Tooltip, Upload} from "antd";
 import {environment} from "../../environment";
 import {useFileUpload} from "../../hooks/file-upload.hook";
+import {EyeInvisibleOutlined} from "@ant-design/icons";
 
 interface BackgroundMobileProps {
 
 }
 
 function BackgroundMobile(props: BackgroundMobileProps) {
-  const [fileList, uploadFile] = useFileUpload("loginPageBackgroundImageMobile");
+  const [fileList, uploadFile, noImage] = useFileUpload("loginPageBackgroundImageMobile");
+
+  function onNoImageClick(event: Event): void {
+    event.stopPropagation();
+    noImage();
+  }
 
   return (
     <div>
@@ -20,6 +26,14 @@ function BackgroundMobile(props: BackgroundMobileProps) {
               onChange={uploadFile}>
         <label className='selectLabel inline' style={{fontSize: '0.85rem'}} htmlFor="bg-mobile-upload">Mobile background:</label>
         <Button type={'primary'} id='bg-mobile-upload'>Upload Mobile</Button>
+        <Tooltip title={'Don\'t use image'}>
+          <Button type={'default'}
+                  id='no-image-mobile'
+                  className='no-image'
+                  onClick={(e: any) => onNoImageClick(e)}>
+            <EyeInvisibleOutlined />
+          </Button>
+        </Tooltip>
       </Upload>
     </div>
   )

@@ -30,6 +30,11 @@ h2.section-heading {
   padding: 0 !important;
 }
 
+.no-image {
+  margin-left: 5px;
+}
+
+
 .selectLabel {
   font-size: 0.9em;
   display: block;

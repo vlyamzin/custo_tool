@@ -5,7 +5,7 @@ import {useConfig} from "../services/config.provider";
 import platformService, {PlatformCustomization, PlatformCustomizationItem} from "../services/platform.service";
 import {UploadFile} from "antd/es/upload/interface";
 
-type FileUploadHook = [UploadFile<any>[], (i: UploadChangeParam) => void];
+type FileUploadHook = [UploadFile<any>[], (i: UploadChangeParam) => void, () => void];
 
 export function useFileUpload(type: keyof PlatformCustomization): FileUploadHook {
   const {config, setConfig} = useConfig();
@@ -87,5 +87,19 @@ export function useFileUpload(type: keyof PlatformCustomization): FileUploadHook
     }
   }
 
-  return [fileList, uploadFile];
+  function noImage(): void {
+    setFile([{
+      uid: '-' + Math.floor(Math.random() * 100),
+      name: 'none',
+      status: 'done',
+      url: `${environment.remote}/none`,
+      thumbUrl: `${environment.remote}/none`
+    }]);
+    const customizationItem = addCustomizationItem('none');
+
+    platformService.setCustomizationPart(type, customizationItem, `Image was not set`)
+      .then(() => { {setConfig({...config})} });
+  }
+
+  return [fileList, uploadFile, noImage];
 }
